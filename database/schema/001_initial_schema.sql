@@ -48,7 +48,7 @@ CREATE TABLE semesters (
     semester_name VARCHAR(10) NOT NULL,
     year INT NOT NULL,
     
-    CONSTRAINT check_valid_semester CHECK (semester_name IN (‘Fall’, ‘Winter’, ‘Spring’, ‘Summer’)
+    CONSTRAINT check_valid_semester CHECK (semester_name IN ('Fall', 'Winter', 'Spring', 'Summer')
 );
 
 CREATE TABLE sections (
