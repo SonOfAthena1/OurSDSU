@@ -2,10 +2,10 @@ CREATE DATABASE IF NOT EXISTS oursdsu;
 USE oursdsu;
 
 
--- THIS IS NOT FUNCTIONAL, JUST THE INITIAL SCHEMA DRAFT SETUP 
+-- INITIAL SCHEMA DRAFT SETUP 
 
 
-
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -16,57 +16,69 @@ CREATE TABLE users (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+
+DROP TABLE IF EXISTS ge_categories;
+CREATE TABLE ge_categories (
+    ge_category_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    ge_category VARCHAR(20) NOT NULL UNIQUE
+);
+
+
+DROP TABLE IF EXISTS courses;
 CREATE TABLE courses (
     course_id INT AUTO_INCREMENT PRIMARY KEY,
-    course_name VARCHAR(?) NOT NULL,
-    subject_code VARCHAR(?)
-    course_number SMALLINT NOT NULL,
+    course_name VARCHAR(20) NOT NULL,    -- i.e. Data Structures
+    subject_code VARCHAR(20) NOT NULL,   -- i.e. CS
+    course_number SMALLINT NOT NULL,     -- i.e. 210
     course_description TEXT NOT NULL,
 
-    prerequisites VARCHAR(?),
+    prerequisites VARCHAR(20),
     ge_coverage INT,  
     units TINYINT NOT NULL,
 
-    UNIQUE(subject_code, course_number)
-    FOREIGN_KEY(ge_coverage) REFERENCES ge_categories(ge_category_id)
+    UNIQUE(subject_code, course_number),
+    FOREIGN KEY(ge_coverage) REFERENCES ge_categories(ge_category_id)
 );
 
-CREATE TABLE ge_categories (
-    ge_category_id INT AUTO_INCREMENT PRIMARY KEY
-  
-  ge_category VARCHAR(?) NOT NULL UNIQUE
-);
 
+DROP TABLE IF EXISTS instructors;
 CREATE TABLE instructors (
    instructor_id INT AUTO_INCREMENT PRIMARY KEY,
-   name VARCHAR(?) NOT NULL,
-   instructor_rating DECIMAL(2,1),
+   name VARCHAR(20) NOT NULL,
+   instructor_rating DECIMAL(2,1)
 );
 
+
+DROP TABLE IF EXISTS semesters;
 CREATE TABLE semesters (
     semester_id INT AUTO_INCREMENT PRIMARY KEY,
     semester_name VARCHAR(10) NOT NULL,
-    year INT NOT NULL,
+    year INT UNSIGNED NOT NULL,
     
-    CONSTRAINT check_valid_semester CHECK (semester_name IN ('Fall', 'Winter', 'Spring', 'Summer')
+    CONSTRAINT check_valid_semester_season CHECK (semester_name IN ('Fall', 'Winter', 'Spring', 'Summer')),
+    CONSTRAINT check_valid_semester_year CHECK (year > 1900)
+    -- Note that we need checks to make sure no semester years are collected too far in the future. 
 );
 
+
+DROP TABLE IF EXISTS sections;
 CREATE TABLE sections (
     section_id INT AUTO_INCREMENT PRIMARY KEY,
-    class INT NOT NULL,
-    instructor INT NOT NULL,
-    semester_offered INT NOT NULL,
+    course_id INT NOT NULL,
+    instructor_id INT NOT NULL,
+    semester_offered_id INT NOT NULL,
 
-    FOREIGN_KEY(class) REFERENCES courses(course_id),
-    FOREIGN_KEY(instructor) REFERENCES instructors(instructor_id),
-    FOREIGN_KEY(semester_offered) REFERENCES semesters(semester_id),
+    FOREIGN KEY(course_id) REFERENCES courses(course_id),
+    FOREIGN KEY(instructor_id) REFERENCES instructors(instructor_id),
+    FOREIGN KEY(semester_offered_id) REFERENCES semesters(semester_id),
 
-    meeting_days TINYINT UNSIGNED NOT NULL*,
+    meeting_days TINYINT UNSIGNED NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
-    class_location VARCHAR(?) NOT NULL,
+    class_location VARCHAR(20) NOT NULL,
 
     current_enrollment INT NOT NULL,
     max_enrollment INT NOT NULL,
-    waitlist_size INT,
+    waitlist_size INT
 );
