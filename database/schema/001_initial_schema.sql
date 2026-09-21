@@ -45,7 +45,7 @@ CREATE TABLE courses (
 DROP TABLE IF EXISTS instructors;
 CREATE TABLE instructors (
    instructor_id INT AUTO_INCREMENT PRIMARY KEY,
-   name VARCHAR(20) NOT NULL,
+   instructor_name VARCHAR(20) NOT NULL,
    instructor_rating DECIMAL(2,1)
 );
 
