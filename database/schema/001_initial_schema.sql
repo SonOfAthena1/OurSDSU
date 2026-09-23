@@ -73,7 +73,12 @@ CREATE TABLE sections (
     FOREIGN KEY(instructor_id) REFERENCES instructors(instructor_id),
     FOREIGN KEY(semester_offered_id) REFERENCES semesters(semester_id),
 
-    meeting_days TINYINT UNSIGNED NOT NULL,
+    -- This is a bit mask. We make it so that every day corresponds to one of the bits, 
+    -- so 00001010 might mean Thu/Tue, and 00010101 is Fri/Wed/Mon. You can do this by 
+    -- mapping every day like so: Mon -> 1, Tue -> 2, Wed -> 4, Thu -> 8, Fri -> 16, etc.
+    -- Hence, you can add them up to get the perfect byte mask, as Tue is 00000010 and 
+    -- Thu is 00001000, so adding them up or 2+8=10 is 00001010.
+    meeting_days TINYINT UNSIGNED NOT NULL, 
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     class_location VARCHAR(20) NOT NULL,
