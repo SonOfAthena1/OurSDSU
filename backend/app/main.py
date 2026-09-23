@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 import pymysql
 
-from backend.app.db import get_db_connection
+from app.db import get_db_connection
 
 app = FastAPI()
 
