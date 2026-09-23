@@ -4,7 +4,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 import pymysql
 
-load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+load_dotenv(
+    Path(__file__).resolve().parents[1] / ".env",
+    override=True,
+)
 
 def get_db_connection():
     return pymysql.connect(
