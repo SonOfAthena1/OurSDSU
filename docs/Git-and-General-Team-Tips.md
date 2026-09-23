@@ -14,7 +14,7 @@ Open the **Source Control** panel in VS Code (`Ctrl+Shift+G`) and look below whe
 - If you see **purple**, your local branch is behind the remote branch. Pull or sync the incoming changes before starting work.
 - If you see **blue**, your local branch is up-to-date with the remote branch.
 
-The exact colors can vary with your VS Code theme, so also look for a down arrow or an incoming-commit count. For example, `↓1` means there is one remote commit to pull.
+The exact colors can vary with your VS Code theme, so also look for a **down arrow at the very bottom left corner** of the window. That is a commit count for how many commits you are behind the remote. For example, `↓3` means there are three remote commits to pull.
 
 ### Turn on automatic fetching
 
