@@ -5,6 +5,32 @@ Our goal is to **keep our `main` branch runnable at all times**, as in, no error
 we're going to try working on new things on branches, until they work, and then merge them into main.
 
 
+## 0. Checking Git for Updates
+
+### Check your Git status in VS Code first
+
+Open the **Source Control** panel in VS Code (`Ctrl+Shift+G`) and look below where it says "Graph" - that it a list of the commit history:
+
+- If you see **purple**, your local branch is behind the remote branch. Pull or sync the incoming changes before starting work.
+- If you see **blue**, your local branch is up-to-date with the remote branch.
+
+The exact colors can vary with your VS Code theme, so also look for a down arrow or an incoming-commit count. For example, `↓1` means there is one remote commit to pull.
+
+### Turn on automatic fetching
+
+Automatic fetching lets VS Code regularly check GitHub for new commits. Open VS Code Settings with `Ctrl+,`, search for **Git: Autofetch**, and enable it. Then search for **Git: Autofetch Period** and set it to `60` seconds (or leave the default `180` seconds).
+
+You can also add these settings to your VS Code **User** `settings.json`:
+
+```json
+{
+  "git.autofetch": true,
+  "git.autofetchPeriod": 60
+}
+```
+
+>Fetching only checks for and downloads information about remote commits; it does not apply them to your local branch. If VS Code shows incoming changes, you still need to click **Pull**, type `git pull` or **Sync Changes**.
+
 ## 1. Normal Git workflow
 
 Before starting a new task, make sure your local `main` matches GitHub (is up-to-date): 
