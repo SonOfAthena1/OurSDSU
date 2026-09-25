@@ -3,7 +3,6 @@ USE oursdsu;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- INITIAL SCHEMA DRAFT SETUP 
---Hii Im sean
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
