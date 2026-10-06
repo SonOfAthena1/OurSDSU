@@ -13,9 +13,9 @@ VALUES
 ('Mary Jane', 5.0);
 
 -- Sample GE requirements --
-INSERT INTO ge_categories(ge_category)
+INSERT INTO ge_categories(ge_category_code, ge_category)
 VALUES
-('Mathematics');
+('0A', 'Mathematics');
 
 -- Sample courses --
 INSERT INTO courses(course_name, subject_code, course_number, course_description, prerequisites, ge_coverage, units)
