@@ -1,3 +1,10 @@
+-- Sample data for some fake users that do not exist
+INSERT INTO users(email, password_hash, display_name)
+VALUES
+(testUser1@gmail.com, gmailPassword, gmailUser),
+(testUser2@yahoo.com, yahooPassword, yahooUser),
+(testUser3@sdsu.edu, sdsuPassword, sdsuUser); 
+
 -- Sample data for some fake instructors that do not exist
 INSERT INTO instructors(instructor_name, instructor_rating)
 VALUES
