@@ -12,5 +12,5 @@ This page is for our team to keep track of work and assignments.
 - [ ] Watch a short YouTube tutorial on FastAPI basics
 
 ## Frontend Team:
-- [ ] Review/learn about React
-- [ ] Setup the project React files skeleton
+- [x] Review/learn about React
+- [x] Setup the project React files skeleton
