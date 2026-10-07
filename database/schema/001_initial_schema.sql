@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS ge_categories;
 CREATE TABLE ge_categories (
     ge_category_id INT AUTO_INCREMENT PRIMARY KEY,
     
+    ge_category_code CHAR(2) NOT NULL UNIQUE,
     ge_category VARCHAR(20) NOT NULL UNIQUE
 );
 
