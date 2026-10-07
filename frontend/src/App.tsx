@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.tsx";
 //import NavBar from "./components/NavBar.tsx";
-import 'bootstrap/dist/css/bootstrap.min.css'
 import CourseProvider from "./contexts/CourseContext.tsx";
 import Starred from "./pages/Starred.tsx";
 
