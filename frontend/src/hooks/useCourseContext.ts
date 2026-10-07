@@ -1,7 +1,10 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, type Dispatch, type SetStateAction } from 'react'
+import type { Course } from '../types/course'
 
-// An empty context value for now; add course fields when they are needed.
-type CourseContextValue = Record<string, never>
+type CourseContextValue = {
+  courses: Course[]
+  setCourses: Dispatch<SetStateAction<Course[]>>
+}
 
 export const CourseContext = createContext<CourseContextValue | undefined>(
   undefined,
