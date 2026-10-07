@@ -1,3 +1,6 @@
+-- This clears data from all tables 
+-- (Do not run unless you are sure you want to empty data) 
+
 SET FOREIGN_KEY_CHECKS = 0;
 
 TRUNCATE TABLE sections;
