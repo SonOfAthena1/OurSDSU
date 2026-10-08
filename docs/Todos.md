@@ -14,3 +14,10 @@ This page is for our team to keep track of work and assignments.
 ## Frontend Team:
 - [x] Review/learn about React
 - [x] Setup the project React files skeleton
+
+## President
+- [x] Setup repo rules
+- [x] Setup prettier
+- [ ] Setup ESlint
+- [ ] Setup Ruff
+- [ ] Setup other project tooling
