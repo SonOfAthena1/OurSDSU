@@ -1,5 +1,9 @@
 {
   "devDependencies": {
     "prettier": "^3.9.9"
+  },
+  "scripts": {
+    "format": "prettier --write frontend",
+    "format:check": "prettier --check frontend"
   }
 }
