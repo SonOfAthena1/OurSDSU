@@ -10,7 +10,10 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   // Add course state and actions here as the project grows.
   const [courses, setCourses] = useState<Course[]>([])
 
-  const value = { courses, setCourses }
+  const value = { 
+    courses, 
+    setCourses 
+  }
 
   return (
     <CourseContext.Provider value={value}>
