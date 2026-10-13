@@ -74,6 +74,14 @@ cd ..
 ```
 This is a command you can always use to go back to the repo root.
 
+From the repository root, also install the shared development tools (including Prettier):
+
+```bash
+npm install
+```
+
+You can now run the frontend from the repository root with `npm run dev`. See [Repo Scripts](Repo-Scripts.md) for the checks and automatic fixes to run before committing.
+
 ## 4. Set up the Python backend
 
 From the repository root, create a virtual environment. A virtual environment keeps this project’s Python packages separate from your other Python projects.
@@ -98,11 +106,15 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-After activation, your prompt should normally start with `(.venv)`. Then, on either operating system, install the packages the team committed:
+After activation, your prompt should normally start with `(.venv)`. Then, from the repository root on either operating system, install the backend packages and development tools:
 
 ```bash
-python -m pip install -r backend/requirements.txt
+python -m pip install -r backend/requirements-dev.txt
 ```
+
+`requirements-dev.txt` includes everything in `requirements.txt` plus development tools such as Ruff, which checks and formats Python code. You only need this one install command. If you already installed the backend dependencies, run it again to add the development tools.
+
+Keep `.venv` activated when running the backend check and fix commands described in [Repo Scripts](Repo-Scripts.md).
 
 In VS Code, select the `.venv` interpreter if prompted. You can also use **Python: Select Interpreter** from the Command Palette and choose the one inside this project’s `.venv` folder.
 

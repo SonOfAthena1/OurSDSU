@@ -9,15 +9,15 @@
 
     "format": "prettier --write frontend && python -m ruff format backend",
     "format:check": "prettier --check frontend && python -m ruff format --check backend",
-    "check": "npm run lint && npm run typecheck && npm run format:check && python -m ruff check backend && python -m ruff format --check backend",
+    "check": "npm run check:front && npm run check:back",
     "fix": "npm --prefix frontend run lint -- --fix && python -m ruff check --fix backend && npm run format",
     
     "format:front": "prettier --write frontend",
     "format:back": "python -m ruff format backend",
-    "check:front": "npm run lint && npm run typecheck && npm run format:check",
+    "check:front": "npm run lint && npm run typecheck && prettier --check frontend",
     "check:back": "python -m ruff check backend && python -m ruff format --check backend",
     "fix:front": "npm --prefix frontend run lint -- --fix && npm run format:front",
-    "fix:back": "python -m ruff check --fix backend"
+    "fix:back": "python -m ruff check --fix backend && npm run format:back"
 
   }
 }
