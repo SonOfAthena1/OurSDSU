@@ -63,8 +63,9 @@ Each course appears once in `results`; all its matching sections go in its `sect
 
 Before coding this contract, have the frontend and backend teammates confirm the request URL, required parameters, response field names and types, and the empty-result behavior. Later filters can extend this contract one at a time, while keeping at least one semester required for every course search.
 
-**Request (one semester):** `GET /courses?semester_id=3`
-**Request (multiple semesters):** `GET /courses?semester_id=3&semester_id=4`
+### Request Semesters (required):
+- Request (one semester): `GET /courses?semester_id=3`
+- Request (multiple semesters): `GET /courses?semester_id=3&semester_id=4`
 
 ```json
 {
@@ -98,7 +99,7 @@ Before coding this contract, have the frontend and backend teammates confirm the
           "year": 2026,
           "instructor_name": "Brandon",
           "meeting_days": ["Mon", "Wed", "Fri"],
-          "start_time": "012:00:00",
+          "start_time": "12:00:00",
           "end_time": "01:15:00",
           "class_location": "HH 227",
           "current_enrollment": 43,
@@ -111,7 +112,11 @@ Before coding this contract, have the frontend and backend teammates confirm the
 }
 ```
 
-**Request (one set of days):** `GET /courses?semester_id=3&days=10`
+### Request Days:
+- Request (one set of days):** `GET /courses?semester_id=3&days=10`
+    - Returns classes whose bitmask number matches the number in the request. 
+    - 10 means 2+8, which is Tue/Thu, so classes only on Tue/Thu get returned.
+    - Days int should theoretically only range between 0 and 63, as no classes should be on Sat or Sunday.
 
 ```json
 {
@@ -158,24 +163,36 @@ Before coding this contract, have the frontend and backend teammates confirm the
 }
 ```
 
-**Request (one ge):** `GET /courses?semester_id=3&ge_category_id=6`   
-**Request (multiple ge's):** `GET /courses?semester_id=3&ge_category_id=6&ge_category_id=4`
-    
-**Request (classes start at this time or later):** `GET /courses?semester_id=3&early_start_time=09:00:00`    
-**Request (earliest time, latest time):** `GET /courses?semester_id=3&early_start_time=12:00:00&late_start_time=18:00:00`    
-**Request (asynchronous):** `GET /courses?semester_id=3&early_start_time=null&late_start_time=null`   
-Return all classes that are asynchronous, why start and end time are null
-     
-**Request (locations, online):** `GET /courses?semester_id=3&location=online`   
-Returns all classes where location=online.
+### Important Note:
+How filters combine:
+- Different filters use **AND**: subject matches and units match and the section is open.
+- Multiple values within one filter use **OR**: CS or RWS; 3 or 4 units.
 
-**Request (locations, in-person):** `GET /courses?semester_id=3&location=in_person`   
-Returns all classes where location!=online
+### Request GE Categories:
+- Request (one ge): `GET /courses?semester_id=3&ge_category_id=6`   
+- Request (multiple ge's): `GET /courses?semester_id=3&ge_category_id=6&ge_category_id=4`
+  
+### Request Class Times:
+- Request (classes start at this time or later): 
+`GET /courses?semester_id=3&early_start_time=09:00:00`    
+- Request (earliest start time, latest start time): 
+`GET /courses?semester_id=3&early_start_time=12:00:00&late_start_time=18:00:00`    
+- Request (asynchronous): `GET /courses?semester_id=3&asynchronous=true`   
+  - Return all classes that are asynchronous, why start and end time are null
+     
+### Request locations:
+- Request (locations, online): `GET /courses?semester_id=3&location=online`   
+    - Returns all classes where location=online.
+- Request (locations, in-person): `GET /courses?semester_id=3&location=in_person`   
+    - Returns all classes where location!=online
     
-**Request (subject):** `GET /courses?semester_id=3&units=3`   
-**Request (multiple subjects):** `GET /courses?semester_id=3&subject_code=cs&subject_code=rws`
+### Request Class Subjects
+- Request (subject): `GET /courses?semester_id=3subject_code=cs`   
+- Request (multiple subjects): `GET /courses?semester_id=3&subject_code=cs&subject_code=rws`
     
-**Request (units):** `GET /courses?semester_id=3&subject_code=cs`   
-**Request (multiple units):** `GET /courses?semester_id=3&units=3&units=4&units=5`
+### Request Units:
+- Request (units): `GET /courses?semester_id=3&units=3`   
+- Request (multiple units): `GET /courses?semester_id=3&units=3&units=4&units=5`
     
-**Request (open classes):** `GET /courses?semester_id=3&only_open_classes=true`
+### Request Open Classes:
+- Request (open classes): `GET /courses?semester_id=3&only_open_classes=true`
