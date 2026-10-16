@@ -80,8 +80,8 @@ CREATE TABLE sections (
     -- Hence, you can add them up to get the perfect byte mask, as Tue is 00000010 and 
     -- Thu is 00001000, so adding them up or 2+8=10 is 00001010.
     meeting_days TINYINT UNSIGNED NOT NULL, 
-    start_time TIME,
-    end_time TIME,
+    start_time TIME, -- If NULL, the instruction type is asynchronous
+    end_time TIME, -- If NULL, the instruction type is asynchronous
     class_location VARCHAR(30) NOT NULL,
 
     current_enrollment INT NOT NULL,
