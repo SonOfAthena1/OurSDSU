@@ -86,5 +86,5 @@ CREATE TABLE sections (
 
     current_enrollment INT NOT NULL,
     max_enrollment INT NOT NULL,
-    waitlist_size INT
+    waitlist_size INT NOT NULL DEFAULT 0
 );
