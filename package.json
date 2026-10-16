@@ -4,6 +4,7 @@
   },
   "scripts": {
     "dev": "npm --prefix frontend run dev",
+    "backend": "python -m uvicorn app.main:app --reload --app-dir backend",
     "lint": "npm --prefix frontend run lint",
     "typecheck": "npm --prefix frontend run typecheck",
 

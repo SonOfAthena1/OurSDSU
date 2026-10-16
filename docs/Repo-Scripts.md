@@ -29,6 +29,7 @@ Run all commands from the **repository root** (the folder containing `frontend`,
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Starts the frontend development server so you can use the app locally while editing. |
+| `npm run backend` | Starts the FastAPI backend development server with automatic reload. Activate `.venv` first. Run this in a separate terminal from `npm run dev` to run both servers at the same time. Stop either server with `Ctrl + C` in its terminal. |
 | `npm run lint` | Uses ESLint to check frontend code for common mistakes and React rule violations. |
 | `npm run typecheck` | Uses TypeScript to check frontend types. It does not build the frontend app with Vite. |
 | `npm run format` | Automatically formats frontend files with Prettier and Python files with Ruff. |
@@ -47,5 +48,5 @@ Run all commands from the **repository root** (the folder containing `frontend`,
 - **Checks report problems; fixes and formatting can change files.** Review those changes before committing.
 - Automatic fixes cannot solve every problem. Type errors and some lint errors need manual edits.
 - Scripts with multiple steps stop at the first failed step. Run the check again after fixing that problem to see whether anything else needs attention.
-- Activate `.venv` before any command that runs Ruff, including the backend commands and the shared `check`, `fix`, `format`, and `format:check` commands. Frontend-only commands do not need `.venv`.
-- These scripts do not start the backend server or run automated tests.
+- Activate `.venv` before `npm run backend` or any command that runs Ruff, including the backend commands and the shared `check`, `fix`, `format`, and `format:check` commands. Frontend-only commands do not need `.venv`.
+- These scripts do not run automated tests.
