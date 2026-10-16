@@ -46,6 +46,8 @@ Run all commands from the **repository root** (the folder containing `frontend`,
 
 # Running backend tests
 
+See [Backend Testing](Backend-Testing.md) for a walkthrough of writing tests, using the shared fixtures, and investigating failures.
+
 With `.venv` activated, install or update the backend development dependencies:
 
 ```bash
