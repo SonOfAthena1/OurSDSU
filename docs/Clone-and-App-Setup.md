@@ -114,7 +114,7 @@ python -m pip install -r backend/requirements-dev.txt
 
 `requirements-dev.txt` includes everything in `requirements.txt` plus development tools such as Ruff, which checks and formats Python code. You only need this one install command. If you already installed the backend dependencies, run it again to add the development tools.
 
-Keep `.venv` activated when running the backend check and fix commands described in [Repo Scripts](Repo-Scripts.md).
+Keep `.venv` activated when running the backend check, fix, and test commands described in [Repo Scripts](Repo-Scripts.md). See [Backend Testing](Backend-Testing.md) to run the example tests and learn how to add your own. The current mocked tests do not require MySQL or a private environment file, so you can run them before the database setup.
 
 In VS Code, select the `.venv` interpreter if prompted. You can also use **Python: Select Interpreter** from the Command Palette and choose the one inside this project’s `.venv` folder.
 

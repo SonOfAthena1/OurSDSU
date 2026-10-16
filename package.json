@@ -18,7 +18,7 @@
     "check:front": "npm run lint && npm run typecheck && prettier --check frontend",
     "check:back": "python -m ruff check backend && python -m ruff format --check backend",
     "fix:front": "npm --prefix frontend run lint -- --fix && npm run format:front",
-    "fix:back": "python -m ruff check --fix backend && npm run format:back"
-
+    "fix:back": "python -m ruff check --fix backend && npm run format:back",
+    "test:back": "python -m pytest"
   }
 }
