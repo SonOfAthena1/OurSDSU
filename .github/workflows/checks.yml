@@ -35,7 +35,7 @@ jobs:
         run: npx prettier --check frontend
 
   python:
-    name: Python checks
+    name: Backend checks
     runs-on: ubuntu-latest
 
     steps:
