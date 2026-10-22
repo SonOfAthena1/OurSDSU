@@ -56,7 +56,7 @@ We use **pytest** to find and run tests and **FastAPI's TestClient** to send req
 
 Run all commands from the **repository root**, the folder containing `backend`, `frontend`, and `package.json`. If you have not created `.venv`, follow [Clone and App Setup](Clone-and-App-Setup.md) first.
 
-Activate the Python environment in each new terminal:
+Activate the Python environment in each new terminal (if it is not activated already):
 
 **Windows PowerShell:**
 
