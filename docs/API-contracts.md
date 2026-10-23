@@ -158,7 +158,15 @@ Before coding this contract, have the frontend and backend teammates confirm the
           "waitlist_size": 0
         }
       ]
-    }
+    },
+    {
+      "course_id": 45,
+      "subject_code": "CS",
+      "course_number": 240,
+      "course_name": "Data Structures",
+      "course_description": "Introduction to data structures.",
+      "units": 3,
+      "sections": [
   ]
 }
 ```

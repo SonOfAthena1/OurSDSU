@@ -44,8 +44,16 @@ def db_health():
 @app.get("/courses")
 def courses(
     semester_id: Annotated[list[PositiveInt], Query(min_length=1)],
+    ge_category_id: Annotated[list[PositiveInt], Query(min_length=1)],
+    early_start_time: Annotated[list[str], Query(min_length=1)],
+    late_start_time: Annotated[list[str], Query(min_length=1)],
+    location: Annotated[list[str], Query(min_length=1)],
+    subject_code: Annotated[list[str], Query(min_length=1)],
+    units: Annotated[list[PositiveInt], Query(min_length=1)],
+    asynchronous: bool = False,
     only_open_classes: bool = False,
-    #TODO Add more potential inputs
+    
+    #TODO Add more potential inputs. Make sure duplicates are properly addressed as well below
 ):
     # Repeated semester_id parameters arrive as a list. Remove duplicates.
     semester_id = list(dict.fromkeys(semester_id))
@@ -56,6 +64,7 @@ def courses(
 
         with connection.cursor() as cursor:
             # TODO SQL Here: check that every ID in semester_id exists.
+            # Use EXISTS
             # Raise HTTPException(status_code=422, detail=...) if one does not.
 
             # TODO SQL Here: fetch sections in semester_id.
