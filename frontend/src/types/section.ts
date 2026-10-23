@@ -1,6 +1,6 @@
 export type Section = {
   section_id: number;
-  semester_id: number,
+  semester_id: number;
   semester_name: string;
   year: number;
   instructor_name: string;
@@ -9,5 +9,6 @@ export type Section = {
   end_time: string | null;
   class_location: string;
   max_enrollment: number;
+  current_enrollment: number;
   waitlist_size: number;
 };
