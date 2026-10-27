@@ -1,10 +1,9 @@
-
 // code calling the backend goes here
-import type { Course } from '../types/course'
+import type { Course } from "../types/course";
 
 type CoursesResponse = {
-  results: Course[]
-}
+  results: Course[];
+};
 
 // TODO: Learn how to expand this a lot more with Codex
 export async function getCourses(
@@ -14,17 +13,15 @@ export async function getCourses(
   const params = new URLSearchParams({
     subject,
     course_number: String(courseNumber),
-  })
+  });
 
-  const response = await fetch(
-    `http://localhost:8000/courses?${params}`,
-  )
+  const response = await fetch(`http://localhost:8000/courses?${params}`);
 
   if (!response.ok) {
-    throw new Error('Could not load courses')
+    throw new Error("Could not load courses");
   }
 
-  const data: CoursesResponse = await response.json()
+  const data: CoursesResponse = await response.json();
 
-  return data.results
+  return data.results;
 }
