@@ -4,6 +4,12 @@ import Home from "./pages/Home.tsx";
 import CourseProvider from "./contexts/CourseContext.tsx";
 import Starred from "./pages/Starred.tsx";
 
+function MyButton({ title }: { title: string }) {
+  return (
+    <button>{title}</button>
+  );
+}
+
 function App() {
   return (
     <CourseProvider>
@@ -12,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/starred" element={<Starred />} />
+          <h1>wonderhoy</h1>
         </Routes>
       </main>
     </CourseProvider>

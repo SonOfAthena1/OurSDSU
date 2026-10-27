@@ -9,5 +9,6 @@ export type Section = {
   end_time: string | null;
   class_location: string;
   max_enrollment: number;
+  current_enrollment: number,
   waitlist_size: number;
 };
