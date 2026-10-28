@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/starred" element={<Starred />} />
+          <h1>wonderhoy</h1>
         </Routes>
       </main>
     </CourseProvider>
