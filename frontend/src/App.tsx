@@ -4,12 +4,6 @@ import Home from "./pages/Home.tsx";
 import CourseProvider from "./contexts/CourseContext.tsx";
 import Starred from "./pages/Starred.tsx";
 
-function MyButton({ title }: { title: string }) {
-  return (
-    <button>{title}</button>
-  );
-}
-
 function App() {
   return (
     <CourseProvider>
