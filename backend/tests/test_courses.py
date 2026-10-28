@@ -50,3 +50,22 @@ def test_courses_returns_503_when_connection_fails(client, mock_db):
         "detail": "Could not search courses in the local MySQL database."
     }
     mock_db.connection.close.assert_not_called()
+
+# Practice writing a simple test
+def test_courses_generic_valid_test(client, mock_db):
+    response = client.get("/courses?subject_code=CS&course_number=001&semester_id=1")
+
+    assert response.status_code == 200
+
+# Reject GET call if a subject code is not passed (as defined in the API contract)
+# Currently gives a 200 status code; needs to be properly implemented in the backend
+def test_courses_reject_missing_subject(client, mock_db):
+    response = client.get("/courses?course_number=001&semester_id=1")
+
+    assert response.status_code == 422
+    assert any(
+        error["loc"][:2] == ["query", "subject"]
+        for error in response.json()["detail"]
+    )
+
+    mock_db.connect.assert_not_called()
