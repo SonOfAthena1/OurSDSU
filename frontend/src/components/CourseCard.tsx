@@ -9,18 +9,59 @@ function CourseCard({ course }: CourseCardProps) {
     <article className="card mb-3">
       <div className="card-body">
         <h2 className="h5 mb-1">
-          {course.subject_code} {course.course_number}
+          {course.subject_code} {course.course_number}: {course.course_name}
         </h2>
-        <p className="mb-0">{course.course_name}</p>
       </div>
 
       <ul className="list-group list-group-flush">
         {course.sections.map((section) => (
           <li key={section.section_id} className="list-group-item">
-            <p className="mb-1">
+            {/* <div className="fw-semibold mb-2">
               {section.semester_name} {section.year}
-            </p>
-            <p className="mb-0">{section.instructor_name}</p>
+            </div> */}
+            
+
+            <div className="row g-3">
+              <div className="col-12 col-md-2">
+                <div className="small text-body-secondary">Semester</div>
+                <div>
+                  {section.semester_name} {section.year}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-2">
+                <div className="small text-body-secondary">Days</div>
+                <div>
+                  {section.meeting_days.length > 0
+                    ? section.meeting_days.join(" / ")
+                    : "Days not listed"}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-2">
+                <div className="small text-body-secondary">Time</div>
+                <div>
+                  {section.start_time && section.end_time
+                    ? `${section.start_time} – ${section.end_time}`
+                    : "Time not listed"}
+                </div>
+              </div>
+
+              <div className="col-12 col-md-2">
+                <div className="small text-body-secondary">Instructor</div>
+                <div>{section.instructor_name}</div>
+              </div>
+
+              <div className="col-12 col-md-2">
+                <div className="small text-body-secondary">Location</div>
+                <div>{section.class_location}</div>
+              </div>
+
+              <div className="col-12 col-md-2">
+                <div className="small text-body-secondary">Capacity</div>
+                <div>{section.max_enrollment} seats</div>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
