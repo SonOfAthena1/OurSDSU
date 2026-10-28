@@ -1,11 +1,5 @@
-
-
 function Starred() {
-
-    return (
-        <>
-        </>
-    );
+  return <></>;
 }
 
 export default Starred;
