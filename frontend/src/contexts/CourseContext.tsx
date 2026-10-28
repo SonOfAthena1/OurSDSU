@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { CourseContext } from "../hooks/useCourseContext";
 import type { Course } from "../types/course";
 //import { getCourses } from "../api/courses";
-import { getCourses } from "../api/devCourses"
+import { getCourses } from "../api/devCourses";
 
 type CourseProviderProps = {
   children: ReactNode;
@@ -17,20 +17,18 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     setCourses,
   };
 
-  useEffect(() =>{
-    async function  loadCourses() {
+  useEffect(() => {
+    async function loadCourses() {
       const data = await getCourses();
       setCourses(data);
     }
 
     void loadCourses();
-  },[]);
+  }, []);
 
   return (
-    <CourseContext.Provider value={value}>
-      {children}
-    </CourseContext.Provider>
-  )
-}
+    <CourseContext.Provider value={value}>{children}</CourseContext.Provider>
+  );
+};
 
 export default CourseProvider;
