@@ -13,24 +13,48 @@ function CourseCard({ course }: CourseCardProps) {
         </h2>
       </div>
 
+      <div className="px-3 py-2">
+        <div className="row g-3">
+          <div className="col-12 col-md-2">
+            <div className="small text-body-secondary">Semester</div>
+          </div>
+
+          <div className="col-12 col-md-2">
+            <div className="small text-body-secondary">Days</div>
+          </div>
+
+          <div className="col-12 col-md-2">
+            <div className="small text-body-secondary">Time</div>
+          </div>
+
+          <div className="col-12 col-md-2">
+            <div className="small text-body-secondary">Instructor</div>
+          </div>
+
+          <div className="col-12 col-md-2">
+            <div className="small text-body-secondary">Location</div>
+          </div>
+
+          <div className="col-12 col-md-2">
+            <div className="small text-body-secondary">Capacity</div>
+          </div>
+        </div>
+      </div>
+
       <ul className="list-group list-group-flush">
         {course.sections.map((section) => (
           <li key={section.section_id} className="list-group-item">
             {/* <div className="fw-semibold mb-2">
               {section.semester_name} {section.year}
             </div> */}
-            
-
             <div className="row g-3">
               <div className="col-12 col-md-2">
-                <div className="small text-body-secondary">Semester</div>
                 <div>
                   {section.semester_name} {section.year}
                 </div>
               </div>
 
               <div className="col-12 col-md-2">
-                <div className="small text-body-secondary">Days</div>
                 <div>
                   {section.meeting_days.length > 0
                     ? section.meeting_days.join(" / ")
@@ -39,7 +63,6 @@ function CourseCard({ course }: CourseCardProps) {
               </div>
 
               <div className="col-12 col-md-2">
-                <div className="small text-body-secondary">Time</div>
                 <div>
                   {section.start_time && section.end_time
                     ? `${section.start_time} – ${section.end_time}`
@@ -48,17 +71,14 @@ function CourseCard({ course }: CourseCardProps) {
               </div>
 
               <div className="col-12 col-md-2">
-                <div className="small text-body-secondary">Instructor</div>
                 <div>{section.instructor_name}</div>
               </div>
 
               <div className="col-12 col-md-2">
-                <div className="small text-body-secondary">Location</div>
                 <div>{section.class_location}</div>
               </div>
 
               <div className="col-12 col-md-2">
-                <div className="small text-body-secondary">Capacity</div>
                 <div>{section.max_enrollment} seats</div>
               </div>
             </div>
