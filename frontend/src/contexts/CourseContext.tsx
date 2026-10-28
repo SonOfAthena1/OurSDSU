@@ -1,6 +1,8 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { CourseContext } from "../hooks/useCourseContext";
 import type { Course } from "../types/course";
+//import { getCourses } from "../api/courses";
+import { getCourses } from "../api/devCourses"
 
 type CourseProviderProps = {
   children: ReactNode;
@@ -14,6 +16,15 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     courses,
     setCourses,
   };
+
+  useEffect(() =>{
+    async function  loadCourses() {
+      const data = await getCourses();
+      setCourses(data);
+    }
+
+    void loadCourses();
+  },[]);
 
   return (
     <CourseContext.Provider value={value}>
