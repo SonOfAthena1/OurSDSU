@@ -93,7 +93,8 @@ const sampleResponse: { results: Course[] } = {
         },
       ],
     },
-    {
+    { 
+      
       course_id: 53,
       subject_code: "STAT 250",
       course_number: 10,
