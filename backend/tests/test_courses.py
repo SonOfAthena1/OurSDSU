@@ -51,14 +51,16 @@ def test_courses_returns_503_when_connection_fails(client, mock_db):
     }
     mock_db.connection.close.assert_not_called()
 
-# Practice writing a simple test
+# Practice writing a simple test that should pass
 def test_courses_generic_valid_test(client, mock_db):
     response = client.get("/courses?subject_code=CS&course_number=001&semester_id=1")
 
     assert response.status_code == 200
 
-# Reject GET call if a subject code is not passed (as defined in the API contract)
-# Currently gives a 200 status code; needs to be properly implemented in the backend
+# Practice writing a test that would check for a fail
+# Reject GET call if a subject code is not passed
+# However, I believe that we said semester would be the only one required
+# Currently gives a 200 status code, would theoretically fail if implemented as such
 def test_courses_reject_missing_subject(client, mock_db):
     response = client.get("/courses?course_number=001&semester_id=1")
 
@@ -69,3 +71,5 @@ def test_courses_reject_missing_subject(client, mock_db):
     )
 
     mock_db.connect.assert_not_called()
+
+# October 29, 2026 - Write some tests that should pass with different combinations of filters
