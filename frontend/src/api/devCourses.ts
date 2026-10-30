@@ -28,9 +28,9 @@ const sampleResponse: { results: Course[] } = {
     },
 
     {
-      course_id: 42,
+      course_id: 43,
       subject_code: "CS",
-      course_number: 2,
+      course_number: 102,
       course_name: "Fundamentals of Computer Science II",
       course_description:
         "Intermediate course to the fundamentals of Computer Science.",
@@ -54,9 +54,9 @@ const sampleResponse: { results: Course[] } = {
     },
 
     {
-      course_id: 42,
+      course_id: 44,
       subject_code: "CS",
-      course_number: 1,
+      course_number: 100,
       course_name: "Fundamentals of Computer Science I",
       course_description:
         "Introductory course to the fundamentals of Computer Science.",
@@ -93,6 +93,56 @@ const sampleResponse: { results: Course[] } = {
         },
       ],
     },
+    {
+      course_id: 53,
+      subject_code: "STAT 250",
+      course_number: 10,
+      course_name: "Introduction to statistics",
+      course_description:
+      "Introductory course to Statistics.",
+      units: 3,
+      sections: [
+        {
+          section_id: 1,
+          semester_id: 1,
+          semester_name: "Fall",
+          year: 2026,
+          instructor_name: "Asaba Harumasa",
+          meeting_days: ["Wed"],
+          start_time: "11:00:00",
+          end_time: "12:40:00",
+          class_location: "GMCS 416",
+          current_enrollment: 20,
+          max_enrollment: 40,
+          waitlist_size: 0,
+        }]
+    },
+
+    {
+      course_id: 80,
+      subject_code: "Theater 450",
+      course_number: 10,
+      course_name: "Advanced Theaternomic studies",
+      course_description:
+      "Advanced course dedicated to film studies and lighting",
+      units: 3,
+      sections: [
+        {
+          section_id: 1,
+          semester_id: 3,
+          semester_name: "Spring",
+          year: 2027,
+          instructor_name: "Money De Luffa",
+          meeting_days: ["Friday"],
+          start_time: "15:00:00",
+          end_time: "14:30:00",
+          class_location: "MUSIC 120",
+          current_enrollment: 40,
+          max_enrollment: 40,
+          waitlist_size: 5,
+        }]
+    },
+
   ],
 };
 
