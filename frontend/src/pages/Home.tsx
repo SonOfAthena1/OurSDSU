@@ -1,10 +1,15 @@
 import { useCourseContext } from "../hooks/useCourseContext";
 import CourseCard from "../components/CourseCard";
-import { useState } from "react";
+import { useState, type SubmitEvent } from "react";
 
 function Home() {
   const { courses } = useCourseContext();
   const [searchText, setSearchText] = useState("");
+
+  function handleSearch(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(searchText)
+  }
 
   return (
     <section className="container py-5">
@@ -12,14 +17,16 @@ function Home() {
       <p>Find courses and explore your next semester.</p>
 
       
-      <label htmlFor="course-search">Search courses</label>
-      <input
-        id="course-search"
-        type="search"
-        placeholder="e.g. CS 210"
-        value={searchText}
-        onChange={(event) => setSearchText(event.target.value)}
-      />
+      <form onSubmit={handleSearch}>
+        <label htmlFor="course-search">Search courses</label>
+        <input
+          id="course-search"
+          type="search"
+          placeholder="e.g. CS 210"
+          value={searchText}
+          onChange={(event) => setSearchText(event.target.value)}
+        />
+      </form>
 
       <div>
         {courses.map((course) => (
