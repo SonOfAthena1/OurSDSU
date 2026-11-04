@@ -5,20 +5,23 @@ import { useState, type SubmitEvent } from "react";
 function Home() {
   const { courses } = useCourseContext();
   const [searchText, setSearchText] = useState("");
+  const [searchError, setSearchError] = useState("");
 
   function handleSearch(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSearchError("");
 
     const query = searchText.trim();
 
     if (query === "") {
+      setSearchError("Enter a course to search for.");
       return;
     }
 
     /**
-     * match[0] = "cs 210" — the entire match  
-     * match[1] = "cs"     — first captured group  
-     * match[2] = "210"    — second captured group  
+     * match[0] = "cs 210" — the entire match  \
+     * match[1] = "cs"     — first captured group  \
+     * match[2] = "210"    — second captured group  \
      */
     const match = query.match(/^([a-z]+)\s*(\d+)$/i);
     /*
@@ -31,7 +34,8 @@ function Home() {
      */
 
     if (match === null) {
-      console.warn("Enter a subject and course number, like CS 210.");
+      setSearchError("Enter a subject and course number, like CS 210.");
+      return;
     }
 
     const subject = match[1].toUpperCase();
@@ -55,6 +59,12 @@ function Home() {
           value={searchText}
           onChange={(event) => setSearchText(event.target.value)}
         />
+
+        {searchError && (
+          <p className="text-danger" role="alert">
+            {searchError}
+          </p>
+        )}
       </form>
 
       <div>
