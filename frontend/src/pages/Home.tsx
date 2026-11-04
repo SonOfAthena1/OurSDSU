@@ -8,7 +8,37 @@ function Home() {
 
   function handleSearch(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(searchText)
+
+    const query = searchText.trim();
+
+    if (query === "") {
+      return;
+    }
+
+    /**
+     * match[0] = "cs 210" — the entire match  
+     * match[1] = "cs"     — first captured group  
+     * match[2] = "210"    — second captured group  
+     */
+    const match = query.match(/^([a-z]+)\s*(\d+)$/i);
+    /*
+     * `^`       -> Start of the text
+     * `([a-z]+)` -> One or more letters; remember them as group 1
+     * `\s*`     -> Zero or more whitespace characters
+     * `(\d+)`  -> One or more digits; remember them as group 2
+     * `$`      -> End of the text
+     * `i`      -> Accept uppercase and lowercase letters
+     */
+
+    if (match === null) {
+      console.warn("Enter a subject and course number, like CS 210.");
+    }
+
+    const subject = match[1].toUpperCase();
+    const courseNumber = Number(match[2]);
+
+    console.log({ subject, courseNumber });
+    console.log(query);
   }
 
   return (
@@ -16,7 +46,6 @@ function Home() {
       <h1>Welcome to OurSDSU</h1>
       <p>Find courses and explore your next semester.</p>
 
-      
       <form onSubmit={handleSearch}>
         <label htmlFor="course-search">Search courses</label>
         <input
