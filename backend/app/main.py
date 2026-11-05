@@ -54,8 +54,6 @@ def courses(
     asynchronous: Optional[bool] = None,
     location: Optional[str] = None,
     only_open_classes: bool = False,
-    
-    #TODO Add more potential inputs. Make sure duplicates are properly addressed as well below
 ):
     # Repeated semester_id parameters arrive as a list. Remove duplicates.
     semester_id = list(dict.fromkeys(semester_id))
@@ -75,8 +73,6 @@ def courses(
         connection = get_db_connection()
 
         with connection.cursor() as cursor:
-            # TODO SQL Here: check that every ID in semester_id exists.
-            # Raise HTTPException(status_code=422, detail=...) if one does not.
             # Validate semester IDs
             placeholders = ", ".join(["%s"] * len(semester_id))
 
@@ -189,22 +185,22 @@ def courses(
                 )
                 parameters.extend(units)
 
-            # TODO: Make it so users can select multiple days
             # Optional meeting days.
             # Bit values: Mon=1, Tue=2, Wed=4, Thu=8,
             # Fri=16, Sat=32, Sun=64.
             if days is not None:
-                valid_day_masks = {1, 2, 4, 8, 16, 32, 64}
+                valid_day_mask = 127
 
-                if days not in valid_day_masks:
+                if days < 1 or days > valid_day_mask:
                     raise HTTPException(
                         status_code=422,
-                        detail=(
-                            "days must be one day bit value: "
-                            "1, 2, 4, 8, 16, 32, or 64."
-                        ),
+                        detail={
+                            "message": "Invalid meeting day mask.",
+                            "valid_range": "1-127",
+                        },
                     )
 
+                # Match sections that meet on ALL selected days.
                 conditions.append(
                     "(s.meeting_days & %s) = %s"
                 )
@@ -319,27 +315,3 @@ def courses(
     finally:
         if connection is not None:
             connection.close()
-
-
-            # TODO SQL Here: fetch sections in semester_id.
-            # If only_open_classes is True, include only sections with space.
-            # Pass query values separately to cursor.execute(query, parameters).
-            # Then read the rows with cursor.fetchall().
-
-
-            # pass # Temp placeholder
-            # rows = cursor.fetchall()
-
-        # TODO: group the fetched rows by course_id and build each sections list.
-        # This is an empty placeholder until the query and formatting are added.
-        # results = [] # Build this using rows.
-        # return {"results": results}
-    
-    # except pymysql.MySQLError as error:
-    #     raise HTTPException(
-    #         status_code=503,
-    #         detail="Could not search courses in the local MySQL database.",
-    #     ) from error
-    # finally:
-    #     if connection is not None:
-    #         connection.close()
