@@ -28,7 +28,7 @@ const sampleResponse: { results: Course[] } = {
     },
 
     {
-      course_id: 42,
+      course_id: 41,
       subject_code: "CS",
       course_number: 2,
       course_name: "Fundamentals of Computer Science II",
@@ -54,7 +54,7 @@ const sampleResponse: { results: Course[] } = {
     },
 
     {
-      course_id: 42,
+      course_id: 40,
       subject_code: "CS",
       course_number: 1,
       course_name: "Fundamentals of Computer Science I",
