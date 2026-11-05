@@ -111,7 +111,7 @@ Before coding this contract, have the frontend and backend teammates confirm the
 ```
 
 ### Request Days:
-- Request (one set of days):** `GET /courses?semester_id=3&days=10`
+- Request (one set of days): `GET /courses?semester_id=3&days=10`
     - Returns classes whose bitmask number matches the number in the request. 
     - 10 means 2+8, which is Tue/Thu, so classes only on Tue/Thu get returned.
     - Days int should theoretically only range between 0 and 31, as no classes should be on Sat or Sunday.
