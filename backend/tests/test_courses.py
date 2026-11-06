@@ -114,6 +114,11 @@ def test_courses_generic_weekend(client, mock_db):
 
     assert response.status_code == 200
 
+def test_courses_generic_asynch(client, mock_db):
+    response = client.get("/courses?semester_id=1&days=0") # Asynchronous = 0
+
+    assert response.status_code == 200
+
 def test_courses_early_mwf(client, mock_db):
     response = client.get("/courses?semester_id=1&days=21&early_start_time=08:00:00")
 
@@ -129,6 +134,21 @@ def test_courses_late_monday(client, mock_db):
 
     assert response.status_code == 200
 
+def test_courses_reject_negative_days(client, mock_db):
+    response = client.get("/courses",
+                          params = {
+                              "semester_id": 1,
+                              "days": -1,
+                          })
+
+    assert response.status_code == 422
+    assert any(
+            error["loc"][:2] == ["query", "days"]
+            for error in response.json()["detail"]
+        )
+    
+    mock_db.connect.assert_not_called()
+
 def test_courses_reject_invalid_days(client, mock_db):
     response = client.get("/courses",
                               params = {
@@ -142,7 +162,7 @@ def test_courses_reject_invalid_days(client, mock_db):
         for error in response.json()["detail"]
     )
 
-    mock_db.assert_not_called()
+    mock_db.connect.assert_not_called()
 
 def test_courses_reject_invalid_time(client, mock_db):
     response = client.get("/courses",
