@@ -93,14 +93,12 @@ const sampleResponse: { results: Course[] } = {
         },
       ],
     },
-    { 
-      
+    {
       course_id: 53,
       subject_code: "STAT 250",
       course_number: 10,
       course_name: "Introduction to statistics",
-      course_description:
-      "Introductory course to Statistics.",
+      course_description: "Introductory course to Statistics.",
       units: 3,
       sections: [
         {
@@ -117,7 +115,7 @@ const sampleResponse: { results: Course[] } = {
           max_enrollment: 40,
           waitlist_size: 0,
         },
-       {
+        {
           section_id: 2,
           semester_id: 1,
           semester_name: "Fall",
@@ -131,7 +129,7 @@ const sampleResponse: { results: Course[] } = {
           max_enrollment: 40,
           waitlist_size: 0,
         },
-       {
+        {
           section_id: 3,
           semester_id: 3,
           semester_name: "Fall",
@@ -144,7 +142,8 @@ const sampleResponse: { results: Course[] } = {
           current_enrollment: 40,
           max_enrollment: 40,
           waitlist_size: 20,
-        }]
+        },
+      ],
     },
 
     {
@@ -153,7 +152,7 @@ const sampleResponse: { results: Course[] } = {
       course_number: 10,
       course_name: "Advanced Theaternomic studies",
       course_description:
-      "Advanced course dedicated to film studies and lighting",
+        "Advanced course dedicated to film studies and lighting",
       units: 3,
       sections: [
         {
@@ -184,7 +183,7 @@ const sampleResponse: { results: Course[] } = {
           max_enrollment: 40,
           waitlist_size: 0,
         },
-       {
+        {
           section_id: 3,
           semester_id: 3,
           semester_name: "Spring",
@@ -198,7 +197,7 @@ const sampleResponse: { results: Course[] } = {
           max_enrollment: 40,
           waitlist_size: 5,
         },
-      {
+        {
           section_id: 4,
           semester_id: 3,
           semester_name: "Spring",
@@ -211,9 +210,9 @@ const sampleResponse: { results: Course[] } = {
           current_enrollment: 30,
           max_enrollment: 40,
           waitlist_size: 0,
-        }]
+        },
+      ],
     },
-
   ],
 };
 
