@@ -186,17 +186,17 @@ def courses(
                 parameters.extend(units)
 
             # Optional meeting days.
-            # Bit values: Mon=1, Tue=2, Wed=4, Thu=8,
+            # Bit values: Asynchronous=0, Mon=1, Tue=2, Wed=4, Thu=8,
             # Fri=16, Sat=32, Sun=64.
             if days is not None:
                 valid_day_mask = 127
-
+# TODO: Update asynchronous to be 0 bits
                 if days < 1 or days > valid_day_mask:
                     raise HTTPException(
                         status_code=422,
                         detail={
                             "message": "Invalid meeting day mask.",
-                            "valid_range": "1-127",
+                            "valid_range": "0-127",
                         },
                     )
 
