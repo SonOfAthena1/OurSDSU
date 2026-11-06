@@ -95,8 +95,8 @@ const sampleResponse: { results: Course[] } = {
     },
     {
       course_id: 53,
-      subject_code: "STAT 250",
-      course_number: 10,
+      subject_code: "MATH",
+      course_number: 103,
       course_name: "Introduction to statistics",
       course_description: "Introductory course to Statistics.",
       units: 3,
@@ -148,8 +148,8 @@ const sampleResponse: { results: Course[] } = {
 
     {
       course_id: 80,
-      subject_code: "Theater 450",
-      course_number: 10,
+      subject_code: "THEA",
+      course_number: 450,
       course_name: "Advanced Theaternomic studies",
       course_description:
         "Advanced course dedicated to film studies and lighting",
