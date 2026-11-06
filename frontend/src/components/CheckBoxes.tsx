@@ -8,9 +8,11 @@ type CourseCardProps = {
 
 
 function CheckBox({ course }: CourseCardProps){
-    const [inputs, setInputs] = useState({});
-   
-   return <h2>{course.course_name}</h2>;
+    return(
+        <label>
+            <input type="checkbox" name="WEIIIII" />
+        </label>
+    );
  
 }
 
