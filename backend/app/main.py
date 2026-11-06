@@ -1,5 +1,5 @@
-from typing import Annotated, Optional
 from datetime import time
+from typing import Annotated, Optional
 
 import pymysql
 from fastapi import FastAPI, HTTPException, Query
