@@ -10,7 +10,13 @@ INSERT INTO instructors(instructor_name, instructor_rating)
 VALUES
 ('John Smith', 1.0),
 ('Mike Anderson', 3.0),
-('Mary Jane', 5.0);
+('Mary Jane', 5.0),
+('Asaba Harumasa', 4.0),
+('John Math', 4.5),
+('Ethan Teto', 5.0),
+('Money De Luffa', 4.9),
+('San Xi', 3.8),
+('Zo Lo', 5.0);
 
 -- Sample GE requirements --
 INSERT INTO ge_categories(ge_category_code, ge_category)
@@ -20,9 +26,11 @@ VALUES
 -- Sample courses --
 INSERT INTO courses(course_name, subject_code, course_number, course_description, prerequisites, ge_coverage, units)
 VALUES
-('Fundamentals of Computer Science I', 'CS', 001, 'Introductory course to the fundamentals of Computer Science.', NULL, NULL, 3),
-('Fundamentals of Computer Science II', 'CS', 002, 'Intermediate course to the fundamentals of Computer Science.', 'CS 001', NULL, 3);
-
+('Fundamentals of Computer Science I', 'CS', 101, 'Introductory course to the fundamentals of Computer Science.', NULL, NULL, 3),
+('Fundamentals of Computer Science II', 'CS', 102, 'Intermediate course to the fundamentals of Computer Science.', 'CS 001', NULL, 3),
+('Advanced Theaternomic studies', 'THEA', 104, 'Advanced course dedicated to film studies and lighting', NULL, NULL, 3),
+('Data Structure', 'CS', 210, 'Introduction to data structures.', NULL, NULL, 3),
+('Introduction to statistics', 'MATH', 103, 'Introductory course to Statistics.', NULL, NULL, 3);
 -- Sample data for semesters --
 INSERT INTO semesters(semester_name, year)
 VALUES
