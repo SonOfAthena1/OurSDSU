@@ -6,21 +6,81 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Root packages are unrelated, so keep their updates separate.
 
   # Frontend npm dependencies and its separate package-lock.json.
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
       interval: "weekly"
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+        update-types:
+          - "minor"
+          - "patch"
+      eslint:
+        patterns:
+          - "*eslint*"
+          - "globals"
+        update-types:
+          - "minor"
+          - "patch"
+      vite:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+        update-types:
+          - "minor"
+          - "patch"
 
   # Backend runtime and development requirements.
   - package-ecosystem: "pip"
     directory: "/backend"
     schedule:
       interval: "weekly"
+    groups:
+      fastapi:
+        patterns:
+          - "fastapi"
+          - "starlette"
+          - "annotated-doc"
+        update-types:
+          - "minor"
+          - "patch"
+      pydantic:
+        patterns:
+          - "pydantic*"
+          - "annotated-types"
+          - "typing-inspection"
+        update-types:
+          - "minor"
+          - "patch"
+      uvicorn:
+        patterns:
+          - "uvicorn"
+          - "httptools"
+          - "watchfiles"
+          - "websockets"
+          - "h11"
+          - "click"
+        update-types:
+          - "minor"
+          - "patch"
 
   # Actions referenced by workflows in .github/workflows.
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "actions/*"
+        update-types:
+          - "minor"
+          - "patch"
