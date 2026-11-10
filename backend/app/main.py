@@ -3,6 +3,7 @@ from typing import Annotated
 
 import pymysql
 from fastapi import FastAPI, HTTPException, Query
+from pydantic import Field
 
 from app.db import get_db_connection
 
@@ -43,7 +44,7 @@ def db_health():
 
 @app.get("/courses")
 def courses(
-    semester_id: Annotated[list[int], Query()],
+    semester_id: Annotated[list[Annotated[int, Field(gt=0)]], Query()],
     subject_code: Annotated[list[str] | None, Query()] = None,
     course_number: int | None = None,
     days: int | None = None,
