@@ -51,7 +51,6 @@ def courses(
     units: Annotated[list[int] | None, Query()] = None,
     early_start_time: time | None = None,
     late_start_time: time | None = None,
-    asynchronous: bool | None = None,
     location: str | None = None,
     only_open_classes: bool = False,
 ):
@@ -173,8 +172,7 @@ def courses(
             # Fri=16, Sat=32, Sun=64.
             if days is not None:
                 valid_day_mask = 127
-                # TODO: Update asynchronous to be 0 bits
-                if days < 1 or days > valid_day_mask:
+                if days < 0 or days > valid_day_mask:
                     raise HTTPException(
                         status_code=422,
                         detail={
@@ -183,9 +181,11 @@ def courses(
                         },
                     )
 
-                # Match sections that meet on ALL selected days.
-                conditions.append("(s.meeting_days & %s) = %s")
-                parameters.extend([days, days])
+                if days == 0:
+                    conditions.append("s.meeting_days = 0")
+                else:
+                    conditions.append("(s.meeting_days & %s) = %s")
+                    parameters.extend([days, days])
 
             # Optional earliest start time.
             if early_start_time is not None:
@@ -196,12 +196,6 @@ def courses(
             if late_start_time is not None:
                 conditions.append("s.start_time <= %s")
                 parameters.append(late_start_time.strftime("%H:%M:%S"))
-
-            # Asynchronous sections have NULL start and end times.
-            if asynchronous is True:
-                conditions.append("s.start_time IS NULL AND s.end_time IS NULL")
-            elif asynchronous is False:
-                conditions.append("s.start_time IS NOT NULL AND s.end_time IS NOT NULL")
 
             # Optional location search.
             if location:
@@ -265,9 +259,7 @@ def courses(
                             if row["end_time"] is not None
                             else None
                         ),
-                        "asynchronous": (
-                            row["start_time"] is None and row["end_time"] is None
-                        ),
+                        "asynchronous": row["meeting_days"] == 0,
                         "class_location": row["class_location"],
                         "current_enrollment": row["current_enrollment"],
                         "max_enrollment": row["max_enrollment"],
