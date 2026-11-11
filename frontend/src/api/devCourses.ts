@@ -12,7 +12,7 @@ const sampleResponse: { results: Course[] } = {
       sections: [
         {
           section_id: 101,
-          semester_id: 3,
+          semester_id: 1,
           semester_name: "Fall",
           year: 2026,
           instructor_name: "A. Rivera",
@@ -39,7 +39,7 @@ const sampleResponse: { results: Course[] } = {
         {
           section_id: 101,
           semester_id: 3,
-          semester_name: "Fall",
+          semester_name: "Spring",
           year: 2026,
           instructor_name: "A. Rivera",
           meeting_days: ["Tue", "Thu"],
@@ -121,7 +121,7 @@ const sampleResponse: { results: Course[] } = {
           semester_name: "Fall",
           year: 2026,
           instructor_name: "John Math",
-          meeting_days: ["Mon, Wed"],
+          meeting_days: ["Mon", "Wed"],
           start_time: "11:00:00",
           end_time: "11:50:00",
           class_location: "GMCS 421",
@@ -132,7 +132,7 @@ const sampleResponse: { results: Course[] } = {
         {
           section_id: 3,
           semester_id: 3,
-          semester_name: "Fall",
+          semester_name: "Spring",
           year: 2026,
           instructor_name: "Ethan Teto",
           meeting_days: ["Fri"],
@@ -149,7 +149,7 @@ const sampleResponse: { results: Course[] } = {
     {
       course_id: 80,
       subject_code: "THEA",
-      course_number: 450,
+      course_number: 104,
       course_name: "Advanced Theaternomic studies",
       course_description:
         "Advanced course dedicated to film studies and lighting",
@@ -162,8 +162,8 @@ const sampleResponse: { results: Course[] } = {
           year: 2027,
           instructor_name: "Money De Luffa",
           meeting_days: ["Fri"],
-          start_time: "15:00:00",
-          end_time: "14:30:00",
+          start_time: "14:00:00",
+          end_time: "15:30:00",
           class_location: "MUSIC 120",
           current_enrollment: 40,
           max_enrollment: 40,
@@ -175,7 +175,7 @@ const sampleResponse: { results: Course[] } = {
           semester_name: "Spring",
           year: 2027,
           instructor_name: "San Xi",
-          meeting_days: ["Tue", "Thur"],
+          meeting_days: ["Tue", "Thu"],
           start_time: "12:00:00",
           end_time: "13:15:00",
           class_location: "ENS 101",
