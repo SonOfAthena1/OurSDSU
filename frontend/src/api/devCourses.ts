@@ -12,7 +12,7 @@ const sampleResponse: { results: Course[] } = {
       sections: [
         {
           section_id: 101,
-          semester_id: 3,
+          semester_id: 1,
           semester_name: "Fall",
           year: 2026,
           instructor_name: "A. Rivera",
@@ -38,7 +38,7 @@ const sampleResponse: { results: Course[] } = {
       sections: [
         {
           section_id: 101,
-          semester_id: 3,
+          semester_id: 1,
           semester_name: "Fall",
           year: 2026,
           instructor_name: "A. Rivera",
@@ -96,6 +96,10 @@ const sampleResponse: { results: Course[] } = {
   ],
 };
 
+/**
+ * Temporary placeholder for the eventual backend connection
+ * @returns a list of Course objects: { results: Course[] }
+ */
 export async function getCourses() {
   return sampleResponse.results;
 }
