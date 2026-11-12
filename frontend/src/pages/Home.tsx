@@ -4,10 +4,13 @@ import { useState, type SubmitEvent } from "react";
 import { Button } from "react-bootstrap";
 
 function Home() {
-  const { courses } = useCourseContext();
-  const { semesters } = useCourseContext();
-  const { geCategories } = useCourseContext();
-  const [selectedSemesterIds, setSelectedSemesterIds] = useState<number[]>([]);
+  const {
+  courses,
+  semesters,
+  geCategories,
+  selectedSemesterIds,
+  setSelectedSemesterIds,
+} = useCourseContext();
 
   const [searchText, setSearchText] = useState("");
   const [searchError, setSearchError] = useState("");
