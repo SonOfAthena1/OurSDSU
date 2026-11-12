@@ -21,6 +21,14 @@ export const CourseContext = createContext<CourseContextValue | undefined>(
   undefined,
 );
 
+/**
+ * Reads the shared course, semester, and GE category state from the nearest
+ * CourseProvider and subscribes the calling component to context updates.
+ * This hook reads the provider's state; it does not fetch data itself.
+ *
+ * @returns The shared data arrays and their React state setter functions.
+ * @throws {Error} If called from a component outside a CourseProvider.
+ */
 export const useCourseContext = () => {
   const ctx = useContext(CourseContext);
   if (ctx === undefined) {
