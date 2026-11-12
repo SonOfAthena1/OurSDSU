@@ -1,12 +1,39 @@
 import { useCourseContext } from "../hooks/useCourseContext";
 import CourseCard from "../components/CourseCard";
 import { useState, type SubmitEvent } from "react";
+import { Button } from "react-bootstrap";
 
 function Home() {
   const { courses } = useCourseContext();
+  const { semesters } = useCourseContext();
+  const { geCategories } = useCourseContext();
+  const [selectedSemesterIds, setSelectedSemesterIds] = useState<number[]>([]);
+
   const [searchText, setSearchText] = useState("");
   const [searchError, setSearchError] = useState("");
+  const [submittedSearch, setSubmittedSearch] = useState<{
+    subject: string;
+    courseNumber: number;
+  } | null>(null);
 
+  /**
+   * If a semesterId is in the current semesterIds array, removes
+   * it from the array. If it's not in the array, adds it to the array.
+   * @param semesterId the semester ID to add or remove
+   */
+  function toggleSemester(semesterId: number) {
+    setSelectedSemesterIds((previousIds) =>
+      previousIds.includes(semesterId)
+        ? previousIds.filter((id) => id !== semesterId) // remove it
+        : [...previousIds, semesterId], // add it
+    );
+  }
+
+  /**
+   * TODO
+   * @param event
+   * @returns
+   */
   function handleSearch(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setSearchError("");
@@ -43,12 +70,29 @@ function Home() {
 
     console.log({ subject, courseNumber });
     console.log(query);
+
+    setSubmittedSearch({ subject, courseNumber });
   }
 
   return (
     <section className="container py-5">
       <h1>Welcome to OurSDSU</h1>
       <p>Find courses and explore your next semester.</p>
+
+      <div>
+        {semesters.map((semester) => (
+          <Button 
+            key={semester.semester_id} 
+            type="button"
+            variant="outline-primary"
+            active={selectedSemesterIds.includes(semester.semester_id)}
+            aria-pressed={selectedSemesterIds.includes(semester.semester_id)} // communciates state to screen readers
+            onClick={() => toggleSemester(semester.semester_id)}
+          >
+            {semester.semester_name} {semester.year}
+          </Button>
+        ))}
+      </div>
 
       <form onSubmit={handleSearch}>
         <label htmlFor="course-search">Search courses</label>
