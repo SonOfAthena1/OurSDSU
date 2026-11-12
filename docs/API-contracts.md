@@ -165,7 +165,8 @@ Before coding this contract, have the frontend and backend teammates confirm the
       "course_name": "Data Structures",
       "course_description": "Introduction to data structures.",
       "units": 3,
-      "sections": [
+      "sections": []
+    }
   ]
 }
 ```
