@@ -3,7 +3,7 @@ import type { Course } from "../types/course";
 const sampleResponse: { results: Course[] } = {
   results: [
     {
-      course_id: 42,
+      course_id: 4,
       subject_code: "CS",
       course_number: 210,
       course_name: "Data Structures",
@@ -15,11 +15,11 @@ const sampleResponse: { results: Course[] } = {
           semester_id: 1,
           semester_name: "Fall",
           year: 2026,
-          instructor_name: "A. Rivera",
+          instructor_name: "B. Rivera",
           meeting_days: ["Tue", "Thu"],
           start_time: "09:00:00",
           end_time: "10:15:00",
-          class_location: "GMCS 301",
+          class_location: "GMCS 333",
           current_enrollment: 24,
           max_enrollment: 30,
           waitlist_size: 0,
@@ -28,7 +28,7 @@ const sampleResponse: { results: Course[] } = {
     },
 
     {
-      course_id: 43,
+      course_id: 2,
       subject_code: "CS",
       course_number: 102,
       course_name: "Fundamentals of Computer Science II",
@@ -40,13 +40,13 @@ const sampleResponse: { results: Course[] } = {
           section_id: 101,
           semester_id: 3,
           semester_name: "Spring",
-          year: 2026,
+          year: 2027,
           instructor_name: "A. Rivera",
           meeting_days: ["Tue", "Thu"],
           start_time: "09:00:00",
           end_time: "10:15:00",
           class_location: "GMCS 301",
-          current_enrollment: 24,
+          current_enrollment: 30,
           max_enrollment: 30,
           waitlist_size: 0,
         },
@@ -54,7 +54,7 @@ const sampleResponse: { results: Course[] } = {
     },
 
     {
-      course_id: 44,
+      course_id: 1,
       subject_code: "CS",
       course_number: 100,
       course_name: "Fundamentals of Computer Science I",
@@ -94,7 +94,7 @@ const sampleResponse: { results: Course[] } = {
       ],
     },
     {
-      course_id: 53,
+      course_id: 5,
       subject_code: "MATH",
       course_number: 103,
       course_name: "Introduction to statistics",
@@ -133,7 +133,7 @@ const sampleResponse: { results: Course[] } = {
           section_id: 3,
           semester_id: 3,
           semester_name: "Spring",
-          year: 2026,
+          year: 2027,
           instructor_name: "Ethan Teto",
           meeting_days: ["Fri"],
           start_time: "11:00:00",
@@ -147,7 +147,7 @@ const sampleResponse: { results: Course[] } = {
     },
 
     {
-      course_id: 80,
+      course_id: 3,
       subject_code: "THEA",
       course_number: 104,
       course_name: "Advanced Theaternomic studies",
@@ -202,12 +202,12 @@ const sampleResponse: { results: Course[] } = {
           semester_id: 3,
           semester_name: "Spring",
           year: 2027,
-          instructor_name: "Zo Lo",
+          instructor_name: "Jane Doe",
           meeting_days: ["Mon", "Wed"],
           start_time: "16:00:00",
           end_time: "17:15:00",
           class_location: "GMCS 431",
-          current_enrollment: 30,
+          current_enrollment: 35,
           max_enrollment: 40,
           waitlist_size: 0,
         },
