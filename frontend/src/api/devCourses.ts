@@ -100,6 +100,16 @@ const sampleResponse: { results: Course[] } = {
  * Temporary placeholder for the eventual backend connection
  * @returns a list of Course objects: { results: Course[] }
  */
-export async function getCourses() {
-  return sampleResponse.results;
+export async function getCourses(
+  semesterIds: number[] = [],
+): Promise<Course[]> {
+  if (semesterIds.length === 0) {
+    return sampleResponse.results;
+  }
+
+  return sampleResponse.results.filter((course) =>
+    course.sections.some((section) =>
+      semesterIds.includes(section.semester_id),
+    ),
+  );
 }
