@@ -52,7 +52,7 @@ const sampleResponse: { results: Course[] } = {
         },
       ],
     },
-
+// 
     {
       course_id: 1,
       subject_code: "CS",
