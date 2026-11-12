@@ -1,9 +1,9 @@
-from datetime import time
+from datetime import datetime, time
 from typing import Annotated
 
 import pymysql
 from fastapi import FastAPI, HTTPException, Query
-from pydantic import Field
+from pydantic import PositiveInt
 
 from app.db import get_db_connection
 
@@ -42,9 +42,26 @@ def db_health():
             connection.close()
 
 
+# Actually turn the meeting day bit mask to a string of days
+def decode_meeting_days(day_mask: int) -> list[str]:
+    days = [
+        (1, "Monday"),
+        (2, "Tuesday"),
+        (4, "Wednesday"),
+        (8, "Thursday"),
+        (16, "Friday"),
+        (32, "Saturday"),
+        (64, "Sunday"),
+    ]
+
+    return [  # Check values return the day names
+        day_name for bit, day_name in days if day_mask & bit
+    ]
+
+
 @app.get("/courses")
 def courses(
-    semester_id: Annotated[list[Annotated[int, Field(gt=0)]], Query()],
+    semester_id: Annotated[list[PositiveInt], Query(min_length=1)],
     subject_code: Annotated[list[str] | None, Query()] = None,
     course_number: int | None = None,
     days: int | None = None,
@@ -185,8 +202,8 @@ def courses(
                 if days == 0:
                     conditions.append("s.meeting_days = 0")
                 else:
-                    conditions.append("(s.meeting_days & %s) = %s")
-                    parameters.extend([days, days])
+                    conditions.append("s.meeting_days = %s")
+                    parameters.append(days)
 
             # Optional earliest start time.
             if early_start_time is not None:
@@ -200,8 +217,18 @@ def courses(
 
             # Optional location search.
             if location:
-                conditions.append("s.class_location LIKE %s")
-                parameters.append(f"%{location}%")
+                location = location.strip().lower()
+
+                if location == "in_person":  # Handle in person classes
+                    conditions.append(
+                        "s.class_location IS NOT NULL "
+                        "AND LOWER(s.class_location) NOT LIKE '%online%'"
+                    )
+                elif location == "online":  # Handle online classes
+                    conditions.append("LOWER(s.class_location) LIKE '%online%'")
+                else:
+                    conditions.append("s.class_location LIKE %s")
+                    parameters.append(f"%{location}%")
 
             # Optional open-seat filter.
             if only_open_classes:
@@ -244,19 +271,17 @@ def courses(
                         "semester_id": row["semester_id"],
                         "semester_name": row["semester_name"],
                         "year": row["year"],
-                        "instructor": {
-                            "instructor_id": row["instructor_id"],
-                            "name": row["instructor_name"],
-                            "rating": row["instructor_rating"],
-                        },
-                        "meeting_days": row["meeting_days"],
+                        "instructor_id": row["instructor_id"],
+                        "instructor_name": row["instructor_name"],
+                        "instructor_rating": row["instructor_rating"],
+                        "meeting_days": decode_meeting_days(row["meeting_days"]),
                         "start_time": (
-                            str(row["start_time"])
+                            (datetime.min + row["start_time"]).strftime("%H:%M:%S")
                             if row["start_time"] is not None
                             else None
                         ),
                         "end_time": (
-                            str(row["end_time"])
+                            (datetime.min + row["end_time"]).strftime("%H:%M:%S")
                             if row["end_time"] is not None
                             else None
                         ),
