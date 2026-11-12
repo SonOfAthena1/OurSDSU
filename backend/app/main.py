@@ -44,6 +44,9 @@ def db_health():
 
 # Actually turn the meeting day bit mask to a string of days
 def decode_meeting_days(day_mask: int) -> list[str]:
+    if day_mask == 0:
+        return ["Asynchronous"]
+
     days = [
         (1, "Monday"),
         (2, "Tuesday"),
@@ -222,10 +225,12 @@ def courses(
                 if location == "in_person":  # Handle in person classes
                     conditions.append(
                         "s.class_location IS NOT NULL "
-                        "AND LOWER(s.class_location) NOT LIKE '%online%'"
+                        "AND LOWER(s.class_location) NOT LIKE %s"
                     )
+                    parameters.append("%online%")
                 elif location == "online":  # Handle online classes
-                    conditions.append("LOWER(s.class_location) LIKE '%online%'")
+                    conditions.append("LOWER(s.class_location) LIKE %s")
+                    parameters.append("%online%")
                 else:
                     conditions.append("s.class_location LIKE %s")
                     parameters.append(f"%{location}%")
