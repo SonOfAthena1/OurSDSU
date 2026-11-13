@@ -313,3 +313,54 @@ def courses(
     finally:
         if connection is not None:
             connection.close()
+
+@app.get("/semesters") # Used to return all of the semesters that exist in the database
+def semesters( 
+    semester_id: list[PositiveInt]
+):
+
+    # For empty table
+    # if row["semester_id"] is not None
+    # else None, 
+    # "results": []
+    
+
+
+    # Get semesters
+    # Order semesters
+    # Return HTTP 200 with results array with every row in table (semester_id, semester_name, year)
+    # If table is empty, return empty array
+
+
+ 
+# ### Request Existing Semesters:
+# - Request (semesters that exist): `GET /semesters`  
+#     - Returns: All of the semesters that exist in the DB.
+#     - No query parameters are required. 
+#     - Order the semesters first by year, then by season (see below). 
+#     - Return HTTP 200 with a results array containing every row in the corresponding table. 
+#     - If the table is empty, return {"results": []}
+#     - Example:
+# ```json
+# {
+#   "results": [
+#     { "semester_id": 8, "semester_name": "Spring", "year": 2027 },
+#     { "semester_id": 7, "semester_name": "Fall", "year": 2026 },
+#     ...
+#   ]
+# }
+# ```
+
+# How to order the semester by season:
+# ```SQL
+# SELECT semester_id, semester_name, year
+# FROM semesters
+# ORDER BY
+#     year DESC,
+#     CASE semester_name
+#         WHEN 'Winter' THEN 1
+#         WHEN 'Spring' THEN 2
+#         WHEN 'Summer' THEN 3
+#         WHEN 'Fall' THEN 4
+#     END DESC;
+# ```
