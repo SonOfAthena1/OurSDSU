@@ -55,7 +55,7 @@ const sampleResponse: { results: Course[] } = {
     {
       course_id: 1,
       subject_code: "CS",
-      course_number: 100,
+      course_number: 101,
       course_name: "Fundamentals of Computer Science I",
       course_description:
         "Introductory course to the fundamentals of Computer Science.",
@@ -200,7 +200,7 @@ const sampleResponse: { results: Course[] } = {
           semester_id: 3,
           semester_name: "Spring",
           year: 2027,
-          instructor_name: "Jane Doe",
+          instructor_name: "Mary Jane",
           meeting_days: ["Mon", "Wed"],
           start_time: "16:00:00",
           end_time: "17:15:00",
