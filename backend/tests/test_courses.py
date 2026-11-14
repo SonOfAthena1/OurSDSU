@@ -1,6 +1,13 @@
+from datetime import timedelta
+
 import pymysql
 import pytest
-from datetime import timedelta
+
+
+@pytest.fixture(autouse=True)
+def existing_semester(mock_db):
+    # First query finds semester 1; the course query returns no rows by default.
+    mock_db.cursor.fetchall.side_effect = [[{"semester_id": 1}], []]
 
 
 @pytest.mark.parametrize(
