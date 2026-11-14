@@ -52,7 +52,6 @@ const sampleResponse: { results: Course[] } = {
         },
       ],
     },
-    // yahoo
     {
       course_id: 1,
       subject_code: "CS",
