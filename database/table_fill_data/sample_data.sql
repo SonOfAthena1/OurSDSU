@@ -10,7 +10,7 @@ INSERT INTO instructors(instructor_name, instructor_rating)
 VALUES
 ('John Smith', 1.0), 
 ('Mike Anderson', 3.0), 
-('A. Rivera', 4.0), -- 1
+('A. Rivera', 4.0),
 ('B. Rivera', 4.5),
 ('Mary Jane', 5.0),
 ('Asaba Harumasa', 4.0),
@@ -57,4 +57,3 @@ VALUES
 (5, 6, 1, 8, 110000, 124000, 'GMCS 416', 20, 40, 0),
 (5, 7, 1, 10, 110000, 115000, 'GMCS 421', 21, 40, 0),
 (5, 8, 3, 32, 110000, 124000, 'GMCS 513', 40, 40, 20)
--- 000000 1

@@ -61,7 +61,6 @@ const sampleResponse: { results: Course[] } = {
         "Introductory course to the fundamentals of Computer Science.",
       units: 3,
       sections: [
-        // when referencing sample_data, where does instructor_id go, what correlates to section id
         {
           section_id: 1,
           semester_id: 1,
