@@ -214,6 +214,23 @@ const sampleResponse: { results: Course[] } = {
   ],
 };
 
-export async function getCourses() {
-  return sampleResponse.results;
+/**
+ * Temporary placeholder for the eventual backend connection
+ * @returns a list of Course objects: { results: Course[] }
+ */
+export async function getCourses(
+  semesterIds: number[] = [],
+): Promise<Course[]> {
+  if (semesterIds.length === 0) {
+    return sampleResponse.results;
+  }
+
+  return sampleResponse.results
+    .map((course) => ({
+      ...course,
+      sections: course.sections.filter((section) =>
+        semesterIds.includes(section.semester_id),
+      ),
+    }))
+    .filter((course) => course.sections.length > 0);
 }
