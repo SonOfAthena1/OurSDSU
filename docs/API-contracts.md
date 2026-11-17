@@ -4,25 +4,23 @@ An API contract is a shared agreement about what the frontend sends to the backe
 
 For each new filter, update the relevant contract together, then implement the React control, FastAPI parameter, database query, and displayed result using the same names and rules.
 
-## Proposed first contract: Find a course and its sections in selected semesters
+## Proposed first contract: Find a course and its sections in a selected semester
 
-Every course search must include at least one selected semester. A semester means a specific season and year, such as Fall 2026 or Spring 2027.
+Every course search must include exactly one selected semester. A semester means a specific season and year, such as Fall 2026 or Spring 2027.
 
 **Request (one semester):** `GET /courses?subject_code=CS&course_number=210&semester_id=3`
 
-**Request (multiple semesters):** `GET /courses?subject_code=CS&course_number=210&semester_id=3&semester_id=4`
-
-For these examples, semester ID `3` represents Fall 2026 and ID `4` represents Spring 2027. These IDs are illustrative; the frontend must use the actual IDs from the `semesters` table.
+For these examples, semester ID `3` represents Fall 2026. This ID is illustrative; the frontend must use the actual IDs from the `semesters` table.
 
 | Query parameter | Type | Meaning |
 | --- | --- | --- |
-| `semester_id` | list of positive integers, required; at least one | IDs of selected semesters. Repeat the query parameter for multiple selections, as above; do not use a comma-separated string. |
+| `semester_id` | positive integer, required; exactly one | ID of the selected semester. Supply this query parameter once; do not use repeated parameters or a comma-separated string. |
 
-The backend searches the `courses` table by `subject_code` and `course_number`, then includes only sections whose `semester_offered_id` is one of the selected semester IDs. Multiple selections mean **any selected semester**: selecting Fall 2026 and Spring 2027 includes sections from either semester, without requiring a course to be offered in both.
+The backend searches the `courses` table by `subject_code` and `course_number`, then includes only sections whose `semester_offered_id` equals the selected `semester_id`.
 
-Each course appears once in `results`; all its matching sections go in its `sections` array. Sections from unselected semesters are excluded. A course with no sections in any selected semester is omitted. If no courses have matching sections, return HTTP 200 with `"results": []`.
+Each course appears once in `results`; all its matching sections go in its `sections` array. Sections from other semesters are excluded. A course with no sections in the selected semester is omitted. If no courses have matching sections, return HTTP 200 with `"results": []`.
 
-**Validation:** Return HTTP 422 if no semester IDs are supplied. Also return HTTP 422 for an empty, non-integer, non-positive, or nonexistent semester ID. Treat duplicate semester IDs as one selection. The frontend should prevent submitting a search with no semesters selected, and the backend must enforce the same requirement independently. Missing semesters must never default to searching all semesters.
+**Validation:** Return HTTP 422 if `semester_id` is missing, empty, non-integer, non-positive, or nonexistent. Also return HTTP 422 if `semester_id` is supplied more than once, even if the values are identical. The frontend must allow exactly one semester selection per search, and the backend must enforce the same requirement independently. A missing semester must never default to searching all semesters.
 
 **Successful response:** HTTP 200, JSON. This is illustrative data, not a claim that the local database already contains this course or section.
 
@@ -59,11 +57,9 @@ Each course appears once in `results`; all its matching sections go in its `sect
 
 `course_number`, IDs, enrollment counts, and units are JSON numbers. Times use `HH:MM:SS` strings. In the database, `sections.meeting_days` is a bitmask: Mon = 1, Tue = 2, Wed = 4, Thu = 8, Fri = 16, Sat = 32, and Sun = 64 (numbers here correspond to their bit positions). If the byte is 0, that means the class is asynch. The backend decodes that number into the `meeting_days` array of weekday strings in the response, ordered Mon through Sun; for example, a stored value of `10` becomes `["Tue", "Thu"]`. React displays those strings and does not need to decode the bitmask. `semester_id` in the response comes from `sections.semester_offered_id` in the database. The backend gets `semester_name` and `year` from `semesters`, and `instructor_name` from `instructors`.
 
-Before coding this contract, have the frontend and backend teammates confirm the request URL, required parameters, response field names and types, and the empty-result behavior. Later filters can extend this contract one at a time, while keeping at least one semester required for every course search.
 
-### Request Semesters (required):
+### Request Semester (required):
 - Request (one semester): `GET /courses?semester_id=3`
-- Request (multiple semesters): `GET /courses?semester_id=3&semester_id=4`
 
 ```json
 {
@@ -174,7 +170,7 @@ Before coding this contract, have the frontend and backend teammates confirm the
 ### Important Note:
 How filters combine:
 - Different filters use **AND**: subject matches and units match and the section is open.
-- Multiple values within one filter use **OR**: CS or RWS; 3 or 4 units.
+- Multiple values within one filter use **OR**: CS or RWS; 3 or 4 units. This does not apply to `semester_id`, which accepts exactly one value.
 
 ### Request GE Categories:
 - Request (one ge): `GET /courses?semester_id=3&ge_category_id=6`   
