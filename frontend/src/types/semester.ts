@@ -3,4 +3,3 @@ export type Semester = {
   semester_name: string;
   year: number;
 };
-

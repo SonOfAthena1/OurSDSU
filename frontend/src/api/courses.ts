@@ -8,9 +8,9 @@ type CoursesResponse = {
 // TODO: Learn how to expand this a lot more with Codex
 /**
  * TODO add docu here
- * @param subject 
- * @param courseNumber 
- * @returns 
+ * @param subject
+ * @param courseNumber
+ * @returns
  */
 export async function getCourses(
   subject: string,

@@ -5,12 +5,12 @@ import { Button } from "react-bootstrap";
 
 function Home() {
   const {
-  courses,
-  semesters,
-  geCategories,
-  selectedSemesterIds,
-  setSelectedSemesterIds,
-} = useCourseContext();
+    courses,
+    semesters,
+    geCategories,
+    selectedSemesterIds,
+    setSelectedSemesterIds,
+  } = useCourseContext();
 
   const [searchText, setSearchText] = useState("");
   const [searchError, setSearchError] = useState("");
@@ -25,10 +25,11 @@ function Home() {
    * @param semesterId the semester ID to add or remove
    */
   function toggleSemester(semesterId: number) {
-    setSelectedSemesterIds((previousIds) =>
-      previousIds.includes(semesterId)
-        ? previousIds.filter((id) => id !== semesterId) // remove it
-        : [...previousIds, semesterId], // add it
+    setSelectedSemesterIds(
+      (previousIds) =>
+        previousIds.includes(semesterId)
+          ? previousIds.filter((id) => id !== semesterId) // remove it
+          : [...previousIds, semesterId], // add it
     );
   }
 
@@ -84,8 +85,8 @@ function Home() {
 
       <div>
         {semesters.map((semester) => (
-          <Button 
-            key={semester.semester_id} 
+          <Button
+            key={semester.semester_id}
             type="button"
             variant="outline-primary"
             active={selectedSemesterIds.includes(semester.semester_id)}
