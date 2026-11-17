@@ -31,6 +31,27 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   };
 
   useEffect(() => {
+    async function loadSemesters() {
+      const data = await getSemesters();
+
+      setSemesters(data.slice(0, 4).reverse());
+      setSelectedSemesterId(data[0]?.semester_id ?? 0);
+    }
+
+    void loadSemesters();
+  }, []);
+
+  useEffect(() => {
+    async function loadGEcategories() {
+      const data = await getGEcategories();
+      setGEcategories(data);
+    }
+
+    void loadGEcategories();
+  }, []);
+
+  useEffect(() => {
+    if (selectedSemesterId === 0) return;
     let ignore = false;
 
     async function loadCourses() {
@@ -47,24 +68,6 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
       ignore = true;
     };
   }, [selectedSemesterId]);
-
-  useEffect(() => {
-    async function loadSemesters() {
-      const data = await getSemesters();
-      setSemesters(data);
-    }
-
-    void loadSemesters();
-  }, []);
-
-  useEffect(() => {
-    async function loadGEcategories() {
-      const data = await getGEcategories();
-      setGEcategories(data);
-    }
-
-    void loadGEcategories();
-  }, []);
 
   return (
     <CourseContext.Provider value={value}>{children}</CourseContext.Provider>
