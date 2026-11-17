@@ -1,18 +1,14 @@
 version: 2
 
 updates:
-  # Root npm dependencies and package-lock.json.
+  # Share related npm updates across the root and frontend manifests.
   - package-ecosystem: "npm"
-    directory: "/"
+    directories:
+      - "/"
+      - "/frontend"
     schedule:
       interval: "weekly"
-    # Root packages are unrelated, so keep their updates separate.
-
-  # Frontend npm dependencies and its separate package-lock.json.
-  - package-ecosystem: "npm"
-    directory: "/frontend"
-    schedule:
-      interval: "weekly"
+    # Include major updates within each family; unmatched packages stay separate.
     groups:
       react:
         patterns:
@@ -20,23 +16,20 @@ updates:
           - "react-dom"
           - "@types/react"
           - "@types/react-dom"
-        update-types:
-          - "minor"
-          - "patch"
-      eslint:
+          - "react-router*"
+      typescript-eslint:
         patterns:
           - "*eslint*"
           - "globals"
-        update-types:
-          - "minor"
-          - "patch"
+          - "typescript"
       vite:
         patterns:
           - "vite"
           - "@vitejs/*"
-        update-types:
-          - "minor"
-          - "patch"
+          - "@types/node"
+      prettier:
+        patterns:
+          - "prettier"
 
   # Backend runtime and development requirements.
   - package-ecosystem: "pip"
@@ -44,22 +37,16 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      fastapi:
+      fastapi-pydantic:
         patterns:
           - "fastapi"
           - "starlette"
           - "annotated-doc"
-        update-types:
-          - "minor"
-          - "patch"
-      pydantic:
-        patterns:
           - "pydantic*"
           - "annotated-types"
           - "typing-inspection"
-        update-types:
-          - "minor"
-          - "patch"
+          - "typing-extensions"
+          - "typing_extensions"
       uvicorn:
         patterns:
           - "uvicorn"
@@ -68,9 +55,11 @@ updates:
           - "websockets"
           - "h11"
           - "click"
-        update-types:
-          - "minor"
-          - "patch"
+      backend-tests:
+        patterns:
+          - "pytest*"
+          - "httpx*"
+          - "httpcore*"
 
   # Actions referenced by workflows in .github/workflows.
   - package-ecosystem: "github-actions"
@@ -81,6 +70,3 @@ updates:
       github-actions:
         patterns:
           - "actions/*"
-        update-types:
-          - "minor"
-          - "patch"
