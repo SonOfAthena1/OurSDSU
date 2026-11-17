@@ -259,10 +259,6 @@ def test_courses_reject_invalid_time_range(client, mock_db):
     mock_db.connect.assert_not_called()
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="Backend does not yet limit location to either online or in-person",
-)
 def test_courses_reject_invalid_class_location(client, mock_db):
     response = client.get(
         "/courses",
