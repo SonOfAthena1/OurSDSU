@@ -318,6 +318,31 @@ def courses(
 def semesters( 
     semester_id: list[PositiveInt]
 ):
+    
+    connection = None
+    
+    try:
+        connection = get_db_connection()
+    
+        with connection.cursor() as cursor:
+
+
+
+
+            return {"results": list(results_by_semester.values())}
+                
+    except HTTPException:
+        raise
+
+    except pymysql.MySQLError as error:
+        raise HTTPException(
+                status_code=503,
+                detail="Could not search courses in the local MySQL database.",
+            ) from error
+                
+    finally:
+        if connection is not None:
+            connection.close()
 
     # For empty table
     # if row["semester_id"] is not None
