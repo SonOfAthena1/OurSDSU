@@ -102,6 +102,7 @@ function Home() {
         <label htmlFor="course-search">Search courses</label>
         <input
           id="course-search"
+          className="form-control"
           type="search"
           placeholder="e.g. CS 210"
           value={searchText}
