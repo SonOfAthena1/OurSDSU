@@ -225,9 +225,12 @@ export async function getCourses(
     return sampleResponse.results;
   }
 
-  return sampleResponse.results.filter((course) =>
-    course.sections.some((section) =>
-      semesterIds.includes(section.semester_id),
-    ),
-  );
+  return sampleResponse.results
+    .map((course) => ({
+      ...course,
+      sections: course.sections.filter((section) =>
+        semesterIds.includes(section.semester_id),
+      ),
+    }))
+    .filter((course) => course.sections.length > 0);
 }
