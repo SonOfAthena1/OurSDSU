@@ -17,15 +17,15 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [semesters, setSemesters] = useState<Semester[]>([]);
   const [geCategories, setGEcategories] = useState<GEcategory[]>([]);
-  const [selectedSemesterIds, setSelectedSemesterIds] = useState<number[]>([]);
+  const [selectedSemesterId, setSelectedSemesterId] = useState<number>(0);
 
   const value = {
     courses,
     setCourses,
     semesters,
     setSemesters,
-    selectedSemesterIds,
-    setSelectedSemesterIds,
+    selectedSemesterId,
+    setSelectedSemesterId,
     geCategories,
     setGEcategories,
   };
@@ -34,7 +34,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     let ignore = false;
 
     async function loadCourses() {
-      const data = await getCourses(selectedSemesterIds);
+      const data = await getCourses(selectedSemesterId);
 
       if (!ignore) {
         setCourses(data);
@@ -46,7 +46,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     return () => {
       ignore = true;
     };
-  }, [selectedSemesterIds]);
+  }, [selectedSemesterId]);
 
   useEffect(() => {
     async function loadSemesters() {

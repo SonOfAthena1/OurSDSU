@@ -219,9 +219,9 @@ const sampleResponse: { results: Course[] } = {
  * @returns a list of Course objects: { results: Course[] }
  */
 export async function getCourses(
-  semesterIds: number[] = [],
+  semesterId: number = 0,
 ): Promise<Course[]> {
-  if (semesterIds.length === 0) {
+  if (semesterId === 0) {
     return sampleResponse.results;
   }
 
@@ -229,7 +229,7 @@ export async function getCourses(
     .map((course) => ({
       ...course,
       sections: course.sections.filter((section) =>
-        semesterIds.includes(section.semester_id),
+        semesterId === section.semester_id,
       ),
     }))
     .filter((course) => course.sections.length > 0);

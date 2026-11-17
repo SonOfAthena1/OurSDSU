@@ -8,8 +8,8 @@ function Home() {
     courses,
     semesters,
     geCategories,
-    selectedSemesterIds,
-    setSelectedSemesterIds,
+    selectedSemesterId,
+    setSelectedSemesterId,
   } = useCourseContext();
 
   const [searchText, setSearchText] = useState("");
@@ -25,12 +25,7 @@ function Home() {
    * @param semesterId the semester ID to add or remove
    */
   function toggleSemester(semesterId: number) {
-    setSelectedSemesterIds(
-      (previousIds) =>
-        previousIds.includes(semesterId)
-          ? previousIds.filter((id) => id !== semesterId) // remove it
-          : [...previousIds, semesterId], // add it
-    );
+    setSelectedSemesterId(semesterId);
   }
 
   /**
@@ -89,8 +84,8 @@ function Home() {
             key={semester.semester_id}
             type="button"
             variant="outline-primary"
-            active={selectedSemesterIds.includes(semester.semester_id)}
-            aria-pressed={selectedSemesterIds.includes(semester.semester_id)} // communciates state to screen readers
+            active={selectedSemesterId === semester.semester_id}
+            aria-pressed={selectedSemesterId === semester.semester_id} // communciates state to screen readers
             onClick={() => toggleSemester(semester.semester_id)}
           >
             {semester.semester_name} {semester.year}
