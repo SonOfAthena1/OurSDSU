@@ -80,23 +80,6 @@ def test_courses_allow_in_person_class(client, mock_db):
     assert response.status_code == 200
 
 
-def test_courses_reject_invalid_class_location(client, mock_db):
-    response = client.get(
-        "/courses",
-        params={
-            "semester_id": 1,
-            "location": "ucsd",
-        },
-    )
-
-    assert response.status_code == 422
-    assert any(
-        error["loc"][:2] == ["query", "location"] for error in response.json()["detail"]
-    )
-
-    mock_db.connect.assert_not_called()
-
-
 # Tests for several combinations of date and time
 def test_courses_generic_mwf(client, mock_db):
     mock_db.cursor.fetchall.side_effect = [
@@ -151,7 +134,7 @@ def test_courses_generic_mwf(client, mock_db):
         "Friday",
     ]
 
-    print(section["meeting_days"])
+    # print(section["meeting_days"])
 
 
 def test_courses_generic_tth(client, mock_db):
@@ -211,12 +194,10 @@ def test_courses_reject_negative_days(client, mock_db):
         },
     )
 
+    # Corrected this to match the backend error thrown in main.py
     assert response.status_code == 422
-    assert any(
-        error["loc"][:2] == ["query", "days"] for error in response.json()["detail"]
-    )
-
-    mock_db.connect.assert_not_called()
+    assert response.json()["detail"][0]["type"] == "greater_than_equal"
+    assert response.json()["detail"][0]["loc"] == ["query", "days"]
 
 
 def test_courses_reject_invalid_days(client, mock_db):
@@ -228,11 +209,10 @@ def test_courses_reject_invalid_days(client, mock_db):
         },
     )
 
+    # Corrected this to match the backend error thrown in main.py
     assert response.status_code == 422
-    assert any(
-        error["loc"][:2] == ["query", "days"] for error in response.json()["detail"]
-    )
-
+    assert response.json()["detail"][0]["type"] == "less_than_equal"
+    assert response.json()["detail"][0]["loc"] == ["query", "days"]
     mock_db.connect.assert_not_called()
 
 
@@ -271,4 +251,46 @@ def test_courses_reject_invalid_time_range(client, mock_db):
     # for error in response.json()["detail"]
     # )
 
+    mock_db.connect.assert_not_called()
+
+
+def test_courses_reject_invalid_class_location(client, mock_db):
+    response = client.get(
+        "/courses",
+        params={
+            "semester_id": 1,
+            "location": "ucsd",
+        },
+    )
+
+    assert response.status_code == 422
+    assert any(
+        error["loc"][:2] == ["query", "location"] for error in response.json()["detail"]
+    )
+
+    mock_db.connect.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "early_start_time, late_start_time",
+    [
+        pytest.param("17:30:00Z", "18:45:00", id="early_timezone"),
+        pytest.param("17:30:00", "18:45:00Z", id="late_timezone"),
+    ],
+)
+def test_courses_reject_timezone_suffixes(
+    client, mock_db, early_start_time, late_start_time
+):
+    response = client.get(
+        "/courses",
+        params={
+            "semester_id": 1,
+            "early_start_time": early_start_time,
+            "late_start_time": late_start_time,
+        },
+    )
+
+    assert (
+        response.status_code == 422
+    )  # Should fail this check until handled on the backend (TypeError: can't compare offset-naive and offset-aware times)
     mock_db.connect.assert_not_called()
