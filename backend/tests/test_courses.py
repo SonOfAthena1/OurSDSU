@@ -79,6 +79,7 @@ def test_courses_allow_in_person_class(client, mock_db):
 
     assert response.status_code == 200
 
+
 # Tests for several combinations of date and time
 def test_courses_generic_mwf(client, mock_db):
     mock_db.cursor.fetchall.side_effect = [
@@ -133,7 +134,7 @@ def test_courses_generic_mwf(client, mock_db):
         "Friday",
     ]
 
-    #print(section["meeting_days"])
+    # print(section["meeting_days"])
 
 
 def test_courses_generic_tth(client, mock_db):
@@ -237,6 +238,7 @@ def test_courses_reject_invalid_time(client, mock_db):
 
     mock_db.connect.assert_not_called()
 
+
 def test_courses_reject_invalid_time_range(client, mock_db):
     response = client.get(
         "/courses",
@@ -255,6 +257,7 @@ def test_courses_reject_invalid_time_range(client, mock_db):
     # )
 
     mock_db.connect.assert_not_called()
+
 
 @pytest.mark.xfail(
     strict=True,
@@ -276,14 +279,17 @@ def test_courses_reject_invalid_class_location(client, mock_db):
 
     mock_db.connect.assert_not_called()
 
+
 @pytest.mark.parametrize(
     "early_start_time, late_start_time",
     [
         pytest.param("17:30:00Z", "18:45:00", id="early_timezone"),
-        pytest.param("17:30:00", "18:45:00Z", id="late_timezone")
+        pytest.param("17:30:00", "18:45:00Z", id="late_timezone"),
     ],
 )
-def test_courses_reject_timezone_suffixes(client, mock_db, early_start_time, late_start_time):
+def test_courses_reject_timezone_suffixes(
+    client, mock_db, early_start_time, late_start_time
+):
     response = client.get(
         "/courses",
         params={
@@ -293,4 +299,7 @@ def test_courses_reject_timezone_suffixes(client, mock_db, early_start_time, lat
         },
     )
 
-    assert response.status_code == 422 # Should fail this check until handled on the backend
+    assert (
+        response.status_code == 422
+    )  # Should fail this check until handled on the backend (TypeError: can't compare offset-naive and offset-aware times)
+    mock_db.connect.assert_not_called()
