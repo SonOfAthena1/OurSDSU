@@ -67,12 +67,12 @@ def courses(
     semester_id: Annotated[list[PositiveInt], Query(min_length=1)],
     subject_code: Annotated[list[str] | None, Query()] = None,
     course_number: int | None = None,
-    days: int | None = None,
+    days: Annotated[int, Query(ge=0, le=127)] | None = None,
     ge_category_id: Annotated[list[int] | None, Query()] = None,
     units: Annotated[list[int] | None, Query()] = None,
     early_start_time: time | None = None,
     late_start_time: time | None = None,
-    location: str | None = None,
+    location: Annotated[str | None, Query(pattern="^(online|in_person)$")] = None,
     only_open_classes: bool = False,
 ):
     # Repeated semester_id parameters arrive as a list. Remove duplicates.
@@ -87,6 +87,21 @@ def courses(
     if units is not None:
         units = list(dict.fromkeys(units))
 
+    # Validate time range.
+    if (
+        early_start_time is not None
+        and late_start_time is not None
+        and early_start_time
+        > late_start_time  # Make sure early start time is actually earlier
+    ):
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "message": "Invalid time range.",
+                "early_start_time": str(early_start_time),
+                "late_start_time": str(late_start_time),
+            },
+        )
     connection = None
 
     try:
@@ -314,78 +329,52 @@ def courses(
         if connection is not None:
             connection.close()
 
-@app.get("/semesters") # Used to return all of the semesters that exist in the database
-def semesters( 
-    semester_id: list[PositiveInt]
-):
-    
+
+@app.get("/semesters")  # Used to return all of the semesters that exist in the database
+def semesters():
     connection = None
-    
+
     try:
         connection = get_db_connection()
-    
-        with connection.cursor() as cursor:
 
+        with connection.cursor() as cursor:  # Order by year/season (descending)
+            cursor.execute(""" 
+                SELECT semester_id, semester_name, year
+                FROM semesters
+                ORDER BY
+                    year DESC,
+                    CASE semester_name
+                        WHEN 'Winter' THEN 1
+                        WHEN 'Spring' THEN 2
+                        WHEN 'Summer' THEN 3
+                        WHEN 'Fall' THEN 4
+                    END DESC
+                """)
 
+            rows = cursor.fetchall()
 
+        results_by_semester = []
 
-            return {"results": list(results_by_semester.values())}
-                
+        for row in rows:  # Add all the semester data to the list to later be returned
+            results_by_semester.append(
+                {
+                    "semester_id": row["semester_id"],
+                    "semester_name": row["semester_name"],
+                    "year": row["year"],
+                }
+            )
+
+        return {"results": results_by_semester}
+
     except HTTPException:
         raise
 
     except pymysql.MySQLError as error:
         raise HTTPException(
-                status_code=503,
-                detail="Could not search courses in the local MySQL database.",
-            ) from error
-                
+            status_code=503,
+            detail="Could not search semesters in the local MySQL database.",
+        ) from error
+
     finally:
         if connection is not None:
             connection.close()
-
-    # For empty table
-    # if row["semester_id"] is not None
-    # else None, 
-    # "results": []
-    
-
-
-    # Get semesters
-    # Order semesters
-    # Return HTTP 200 with results array with every row in table (semester_id, semester_name, year)
-    # If table is empty, return empty array
-
-
- 
-# ### Request Existing Semesters:
-# - Request (semesters that exist): `GET /semesters`  
-#     - Returns: All of the semesters that exist in the DB.
-#     - No query parameters are required. 
-#     - Order the semesters first by year, then by season (see below). 
-#     - Return HTTP 200 with a results array containing every row in the corresponding table. 
-#     - If the table is empty, return {"results": []}
-#     - Example:
-# ```json
-# {
-#   "results": [
-#     { "semester_id": 8, "semester_name": "Spring", "year": 2027 },
-#     { "semester_id": 7, "semester_name": "Fall", "year": 2026 },
-#     ...
-#   ]
-# }
-# ```
-
-# How to order the semester by season:
-# ```SQL
-# SELECT semester_id, semester_name, year
-# FROM semesters
-# ORDER BY
-#     year DESC,
-#     CASE semester_name
-#         WHEN 'Winter' THEN 1
-#         WHEN 'Spring' THEN 2
-#         WHEN 'Summer' THEN 3
-#         WHEN 'Fall' THEN 4
-#     END DESC;
-# ```
