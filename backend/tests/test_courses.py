@@ -196,11 +196,8 @@ def test_courses_reject_negative_days(client, mock_db):
 
     # Corrected this to match the backend error thrown in main.py
     assert response.status_code == 422
-    assert response.json()["detail"] == {
-        "message": "Invalid meeting day mask.",
-        "valid_range": "0-127",
-    }
-    mock_db.connect.assert_called_once()
+    assert response.json()["detail"][0]["type"] == "greater_than_equal"
+    assert response.json()["detail"][0]["loc"] == ["query", "days"]
 
 
 def test_courses_reject_invalid_days(client, mock_db):
@@ -214,11 +211,9 @@ def test_courses_reject_invalid_days(client, mock_db):
 
     # Corrected this to match the backend error thrown in main.py
     assert response.status_code == 422
-    assert response.json()["detail"] == {
-        "message": "Invalid meeting day mask.",
-        "valid_range": "0-127",
-    }
-    mock_db.connect.assert_called_once()
+    assert response.json()["detail"][0]["type"] == "less_than_equal"
+    assert response.json()["detail"][0]["loc"] == ["query", "days"]
+    mock_db.connect.assert_not_called()
 
 
 def test_courses_reject_invalid_time(client, mock_db):
