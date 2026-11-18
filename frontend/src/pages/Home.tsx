@@ -80,9 +80,9 @@ function Home() {
   }
 
   return (
-    <section className="container py-5">
+    <section className="container-fluid px-4 py-5">
       <div className="row g-4 mt-3">
-        <div className="col-12 col-lg-2">
+        <div className="col-12 col-lg-2 border-end">
           <FilterSidebar />
         </div>
 

@@ -1,7 +1,7 @@
 function FilterSidebar() {
   return (
     <aside
-      className="border rounded bg-body-tertiary p-3"
+      className="py-3"
       aria-labelledby="filters-heading"
     >
       <h2 id="filters-heading" className="h5">
