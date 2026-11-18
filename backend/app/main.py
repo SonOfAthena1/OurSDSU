@@ -396,7 +396,7 @@ def semesters():
 @app.get(
     "/ge_categories"
 )  # Used to return all of the ge_categories that exist in the database
-def geCategories():
+def ge_categories():
     connection = None
 
     try:
