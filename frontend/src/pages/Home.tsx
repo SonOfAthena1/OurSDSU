@@ -2,7 +2,7 @@ import { useCourseContext } from "../hooks/useCourseContext";
 import CourseCard from "../components/CourseCard";
 import { useState, type SubmitEvent } from "react";
 import { Button } from "react-bootstrap";
-import FilterSidebar from "../components/FilterSideBar";
+import FilterSidebar from "../components/FilterSidebar";
 
 function Home() {
   const {
