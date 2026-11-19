@@ -87,6 +87,19 @@ def courses(
     if units is not None:
         units = list(dict.fromkeys(units))
 
+    # Reject times with timezones attached to them because cannot compare with non-timezone times
+    if early_start_time is not None and early_start_time.tzinfo is not None:
+        raise HTTPException(
+            status_code=422,
+            detail="Timezone information is not allowed for early_start_time.",
+        )
+
+    if late_start_time is not None and late_start_time.tzinfo is not None:
+        raise HTTPException(
+            status_code=422,
+            detail="Timezone information is not allowed for late_start_time.",
+        )
+
     # Validate time range.
     if (
         early_start_time is not None
@@ -373,6 +386,53 @@ def semesters():
         raise HTTPException(
             status_code=503,
             detail="Could not search semesters in the local MySQL database.",
+        ) from error
+
+    finally:
+        if connection is not None:
+            connection.close()
+
+
+@app.get(
+    "/ge_categories"
+)  # Used to return all of the ge_categories that exist in the database
+def ge_categories():
+    connection = None
+
+    try:
+        connection = get_db_connection()
+
+        with connection.cursor() as cursor:  # Order by ge_category_code (ascending)
+            cursor.execute(""" 
+                SELECT ge_category_id, ge_category_code, ge_category
+                FROM ge_categories
+                ORDER BY ge_category_code ASC
+            """)
+
+            rows = cursor.fetchall()
+
+        results_by_ge_category = []
+
+        for (
+            row
+        ) in rows:  # Add all the ge_category data to the list to later be returned
+            results_by_ge_category.append(
+                {
+                    "ge_category_id": row["ge_category_id"],
+                    "ge_category_code": row["ge_category_code"],
+                    "ge_category": row["ge_category"],
+                }
+            )
+
+        return {"results": results_by_ge_category}
+
+    except HTTPException:
+        raise
+
+    except pymysql.MySQLError as error:
+        raise HTTPException(
+            status_code=503,
+            detail="Could not search ge_categories in the local MySQL database.",
         ) from error
 
     finally:
