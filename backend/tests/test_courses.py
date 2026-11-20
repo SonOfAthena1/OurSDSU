@@ -2,6 +2,7 @@ from datetime import timedelta
 
 import pymysql
 import pytest
+from app.main import decode_meeting_days
 
 
 @pytest.fixture(autouse=True)
@@ -78,6 +79,56 @@ def test_courses_allow_in_person_class(client, mock_db):
     response = client.get("/courses?semester_id=1&location=in_person")
 
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize(
+    ("location", "expected_clause"),
+    [
+        ("online", "LOWER(s.class_location) LIKE '%online%'"),
+        (
+            "in_person",
+            "s.class_location IS NOT NULL AND LOWER(s.class_location) NOT LIKE '%online%'",
+        ),
+    ],
+)
+def test_courses_location_filters_format_with_pymysql(
+    client, mock_db, location, expected_clause
+):
+    # Create an actual PyMySQL connection object instead of MagicMock
+    connection = pymysql.Connection(defer_connect=True)
+    connection.server_status = 0
+    cursor = connection.cursor()
+    formatted_queries = []
+
+    # Format SQL with the parameters
+    def execute(query, parameters):
+        formatted_queries.append(cursor.mogrify(query, parameters))
+
+    mock_db.cursor.execute.side_effect = execute
+    mock_db.cursor.fetchall.side_effect = [[{"semester_id": 1}], []]
+
+    response = client.get(f"/courses?semester_id=1&location={location}")
+
+    assert response.status_code == 200
+    assert response.json() == {"results": []}
+    assert expected_clause in formatted_queries[-1]
+
+
+@pytest.mark.parametrize(
+    ("day_mask", "expected_days"),  # Value | List of days
+    [
+        (0, ["Asynchronous"]),
+        (1, ["Monday"]),
+        (2, ["Tuesday"]),
+        (3, ["Monday", "Tuesday"]),
+        (10, ["Tuesday", "Thursday"]),
+        (32, ["Saturday"]),
+    ],
+)
+def test_courses_decode_meeting_days(day_mask, expected_days):
+    assert (
+        decode_meeting_days(day_mask) == expected_days
+    )  # Test if the function works as intended
 
 
 # Tests for several combinations of date and time
