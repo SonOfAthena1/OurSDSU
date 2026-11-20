@@ -4,7 +4,7 @@ type GEcategoriesResponse = {
   results: GEcategory[];
 };
 
-export async function getSemesters(): Promise<GEcategory[]> {
+export async function getGEcategories(): Promise<GEcategory[]> {
   const response = await fetch(`http://localhost:8000/ge_categories`);
 
   if (!response.ok) {
