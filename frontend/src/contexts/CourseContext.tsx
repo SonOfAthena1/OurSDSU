@@ -17,17 +17,18 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [semesters, setSemesters] = useState<Semester[]>([]);
   const [geCategories, setGEcategories] = useState<GEcategory[]>([]);
-  const [selectedSemesterIds, setSelectedSemesterIds] = useState<number[]>([]);
+  const [selectedSemesterId, setSelectedSemesterId] = useState<number>(0);
   const [selectedGECategoryIds, setSelectedGECategoryIds] = useState<number[]>(
     [],
   );
+
   const value = {
     courses,
     setCourses,
     semesters,
     setSemesters,
-    selectedSemesterIds,
-    setSelectedSemesterIds,
+    selectedSemesterId,
+    setSelectedSemesterId,
     geCategories,
     setGEcategories,
     selectedGECategoryIds,
@@ -35,27 +36,11 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   };
 
   useEffect(() => {
-    let ignore = false;
-
-    async function loadCourses() {
-      const data = await getCourses(selectedSemesterIds);
-
-      if (!ignore) {
-        setCourses(data);
-      }
-    }
-
-    void loadCourses();
-
-    return () => {
-      ignore = true;
-    };
-  }, [selectedSemesterIds]);
-
-  useEffect(() => {
     async function loadSemesters() {
       const data = await getSemesters();
-      setSemesters(data);
+
+      setSemesters(data.slice(0, 4).reverse());
+      setSelectedSemesterId(data[0]?.semester_id ?? 0);
     }
 
     void loadSemesters();
@@ -69,6 +54,25 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
 
     void loadGEcategories();
   }, []);
+
+  useEffect(() => {
+    if (selectedSemesterId === 0) return;
+    let ignore = false;
+
+    async function loadCourses() {
+      const data = await getCourses(selectedSemesterId);
+
+      if (!ignore) {
+        setCourses(data);
+      }
+    }
+
+    void loadCourses();
+
+    return () => {
+      ignore = true;
+    };
+  }, [selectedSemesterId]);
 
   return (
     <CourseContext.Provider value={value}>{children}</CourseContext.Provider>
