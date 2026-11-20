@@ -1,8 +1,8 @@
 from datetime import timedelta
-from app.main import decode_meeting_days
 
 import pymysql
 import pytest
+from app.main import decode_meeting_days
 
 
 @pytest.fixture(autouse=True)
@@ -80,18 +80,20 @@ def test_courses_allow_in_person_class(client, mock_db):
 
     assert response.status_code == 200
 
+
 @pytest.mark.parametrize(
-        ("location", "expected_clause"),
-        [
-            ("online", "LOWER(s.class_location) LIKE '%online%'"),
-            (
-                "in_person",
-                "s.class_location IS NOT NULL "
-                "AND LOWER(s.class_location) NOT LIKE '%online%'",
-            ),
-        ],
+    ("location", "expected_clause"),
+    [
+        ("online", "LOWER(s.class_location) LIKE '%online%'"),
+        (
+            "in_person",
+            "s.class_location IS NOT NULL AND LOWER(s.class_location) NOT LIKE '%online%'",
+        ),
+    ],
 )
-def test_courses_location_filters_format_with_pymysql(client, mock_db, location, expected_clause):
+def test_courses_location_filters_format_with_pymysql(
+    client, mock_db, location, expected_clause
+):
     # Create an actual PyMySQL connection object instead of MagicMock
     connection = pymysql.Connection(defer_connect=True)
     connection.server_status = 0
@@ -111,19 +113,22 @@ def test_courses_location_filters_format_with_pymysql(client, mock_db, location,
     assert response.json() == {"results": []}
     assert expected_clause in formatted_queries[-1]
 
+
 @pytest.mark.parametrize(
-        ("day_mask", "expected_days"), # Value | List of days
-        [
-            (0, ["Asynchronous"]),
-            (1, ["Monday"]),
-            (2, ["Tuesday"]),
-            (3, ["Monday", "Tuesday"]),
-            (10, ["Tuesday", "Thursday"]),
-            (32, ["Saturday"]),
-        ],
+    ("day_mask", "expected_days"),  # Value | List of days
+    [
+        (0, ["Asynchronous"]),
+        (1, ["Monday"]),
+        (2, ["Tuesday"]),
+        (3, ["Monday", "Tuesday"]),
+        (10, ["Tuesday", "Thursday"]),
+        (32, ["Saturday"]),
+    ],
 )
 def test_courses_decode_meeting_days(day_mask, expected_days):
-    assert decode_meeting_days(day_mask) == expected_days # Test if the function works as intended
+    assert (
+        decode_meeting_days(day_mask) == expected_days
+    )  # Test if the function works as intended
 
 
 # Tests for several combinations of date and time
