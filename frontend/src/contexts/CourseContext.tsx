@@ -18,7 +18,9 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const [semesters, setSemesters] = useState<Semester[]>([]);
   const [geCategories, setGEcategories] = useState<GEcategory[]>([]);
   const [selectedSemesterIds, setSelectedSemesterIds] = useState<number[]>([]);
-
+  const [selectedGECategoryIds, setSelectedGECategoryIds] = useState<number[]>(
+    [],
+  );
   const value = {
     courses,
     setCourses,
@@ -28,6 +30,8 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     setSelectedSemesterIds,
     geCategories,
     setGEcategories,
+    selectedGECategoryIds,
+    setSelectedGECategoryIds,
   };
 
   useEffect(() => {
