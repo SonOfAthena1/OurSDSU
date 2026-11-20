@@ -8,9 +8,8 @@ function Home() {
   const {
     courses,
     semesters,
-    geCategories,
-    selectedSemesterIds,
-    setSelectedSemesterIds,
+    selectedSemesterId,
+    setSelectedSemesterId,
   } = useCourseContext();
 
   const [searchText, setSearchText] = useState("");
@@ -21,17 +20,11 @@ function Home() {
   } | null>(null);
 
   /**
-   * If a semesterId is in the current semesterIds array, removes
-   * it from the array. If it's not in the array, adds it to the array.
-   * @param semesterId the semester ID to add or remove
+   * Set the selected semester ID to the input semester ID
+   * @param semesterId the semester ID to be selected
    */
   function toggleSemester(semesterId: number) {
-    setSelectedSemesterIds(
-      (previousIds) =>
-        previousIds.includes(semesterId)
-          ? previousIds.filter((id) => id !== semesterId) // remove it
-          : [...previousIds, semesterId], // add it
-    );
+    setSelectedSemesterId(semesterId);
   }
 
   /**
@@ -90,22 +83,20 @@ function Home() {
           <h1>Welcome to OurSDSU</h1>
           <p>Find courses and explore your next semester.</p>
 
-          <div>
-            {semesters.map((semester) => (
-              <Button
-                key={semester.semester_id}
-                type="button"
-                variant="outline-primary"
-                active={selectedSemesterIds.includes(semester.semester_id)}
-                aria-pressed={selectedSemesterIds.includes(
-                  semester.semester_id,
-                )} // communciates state to screen readers
-                onClick={() => toggleSemester(semester.semester_id)}
-              >
-                {semester.semester_name} {semester.year}
-              </Button>
-            ))}
-          </div>
+      <div>
+        {semesters.map((semester) => (
+          <Button
+            key={semester.semester_id}
+            type="button"
+            variant="outline-primary"
+            active={selectedSemesterId === semester.semester_id}
+            aria-pressed={selectedSemesterId === semester.semester_id} // communciates state to screen readers
+            onClick={() => toggleSemester(semester.semester_id)}
+          >
+            {semester.semester_name} {semester.year}
+          </Button>
+        ))}
+      </div>
 
           <form onSubmit={handleSearch}>
             <label htmlFor="course-search">Search courses</label>
