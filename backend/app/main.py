@@ -3,11 +3,17 @@ from typing import Annotated
 
 import pymysql
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import PositiveInt
 
 from app.db import get_db_connection
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+)
 
 
 @app.get("/")
@@ -64,7 +70,7 @@ def decode_meeting_days(day_mask: int) -> list[str]:
 
 @app.get("/courses")
 def courses(
-    semester_id: PositiveInt,
+    semester_id: Annotated[list[PositiveInt], Query()],
     subject_code: Annotated[list[str] | None, Query()] = None,
     course_number: int | None = None,
     days: Annotated[int, Query(ge=0, le=127)] | None = None,
@@ -75,6 +81,16 @@ def courses(
     location: Annotated[str | None, Query(pattern="^(online|in_person)$")] = None,
     only_open_classes: bool = False,
 ):
+    # Reject multiple semester IDs
+    if len(semester_id) != 1:
+        raise HTTPException(
+            status_code=422,
+            detail="Only one semester_id is allowed.",
+        )
+
+    # Convert the single-item list back into an integer
+    semester_id = semester_id[0]
+
     # Remove duplicates.
     if subject_code is not None:
         subject_code = list(dict.fromkeys(subject_code))
