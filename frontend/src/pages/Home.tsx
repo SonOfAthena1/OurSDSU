@@ -2,14 +2,14 @@ import { useCourseContext } from "../hooks/useCourseContext";
 import CourseCard from "../components/CourseCard";
 import { useState, type SubmitEvent } from "react";
 import { Button } from "react-bootstrap";
+import FilterSidebar from "../components/FilterSidebar";
 
 function Home() {
   const {
     courses,
     semesters,
-    geCategories,
-    selectedSemesterIds,
-    setSelectedSemesterIds,
+    selectedSemesterId,
+    setSelectedSemesterId,
   } = useCourseContext();
 
   const [searchText, setSearchText] = useState("");
@@ -20,17 +20,11 @@ function Home() {
   } | null>(null);
 
   /**
-   * If a semesterId is in the current semesterIds array, removes
-   * it from the array. If it's not in the array, adds it to the array.
-   * @param semesterId the semester ID to add or remove
+   * Set the selected semester ID to the input semester ID
+   * @param semesterId the semester ID to be selected
    */
   function toggleSemester(semesterId: number) {
-    setSelectedSemesterIds(
-      (previousIds) =>
-        previousIds.includes(semesterId)
-          ? previousIds.filter((id) => id !== semesterId) // remove it
-          : [...previousIds, semesterId], // add it
-    );
+    setSelectedSemesterId(semesterId);
   }
 
   /**
@@ -79,9 +73,15 @@ function Home() {
   }
 
   return (
-    <section className="container py-5">
-      <h1>Welcome to OurSDSU</h1>
-      <p>Find courses and explore your next semester.</p>
+    <section className="container-fluid px-4 py-5">
+      <div className="row g-4 mt-3">
+        <div className="col-12 col-lg-2 border-end">
+          <FilterSidebar />
+        </div>
+
+        <div className="col-12 col-lg-10">
+          <h1>Welcome to OurSDSU</h1>
+          <p>Find courses and explore your next semester.</p>
 
       <div>
         {semesters.map((semester) => (
@@ -89,8 +89,8 @@ function Home() {
             key={semester.semester_id}
             type="button"
             variant="outline-primary"
-            active={selectedSemesterIds.includes(semester.semester_id)}
-            aria-pressed={selectedSemesterIds.includes(semester.semester_id)} // communciates state to screen readers
+            active={selectedSemesterId === semester.semester_id}
+            aria-pressed={selectedSemesterId === semester.semester_id} // communciates state to screen readers
             onClick={() => toggleSemester(semester.semester_id)}
           >
             {semester.semester_name} {semester.year}
@@ -98,28 +98,30 @@ function Home() {
         ))}
       </div>
 
-      <form onSubmit={handleSearch}>
-        <label htmlFor="course-search">Search courses</label>
-        <input
-          id="course-search"
-          className="form-control"
-          type="search"
-          placeholder="e.g. CS 210"
-          value={searchText}
-          onChange={(event) => setSearchText(event.target.value)}
-        />
+          <form onSubmit={handleSearch}>
+            <label htmlFor="course-search">Search courses</label>
+            <input
+              id="course-search"
+              className="form-control"
+              type="search"
+              placeholder="e.g. CS 210"
+              value={searchText}
+              onChange={(event) => setSearchText(event.target.value)}
+            />
 
-        {searchError && (
-          <p className="text-danger" role="alert">
-            {searchError}
-          </p>
-        )}
-      </form>
+            {searchError && (
+              <p className="text-danger" role="alert">
+                {searchError}
+              </p>
+            )}
+          </form>
 
-      <div>
-        {courses.map((course) => (
-          <CourseCard key={course.course_id} course={course} />
-        ))}
+          <div>
+            {courses.map((course) => (
+              <CourseCard key={course.course_id} course={course} />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
