@@ -64,7 +64,7 @@ def decode_meeting_days(day_mask: int) -> list[str]:
 
 @app.get("/courses")
 def courses(
-    semester_id: Annotated[list[PositiveInt], Query(min_length=1)],
+    semester_id: PositiveInt,
     subject_code: Annotated[list[str] | None, Query()] = None,
     course_number: int | None = None,
     days: Annotated[int, Query(ge=0, le=127)] | None = None,
@@ -75,9 +75,7 @@ def courses(
     location: Annotated[str | None, Query(pattern="^(online|in_person)$")] = None,
     only_open_classes: bool = False,
 ):
-    # Repeated semester_id parameters arrive as a list. Remove duplicates.
-    semester_id = list(dict.fromkeys(semester_id))
-
+    # Remove duplicates.
     if subject_code is not None:
         subject_code = list(dict.fromkeys(subject_code))
 
@@ -121,27 +119,21 @@ def courses(
         connection = get_db_connection()
 
         with connection.cursor() as cursor:
-            # Validate semester IDs
-            placeholders = ", ".join(["%s"] * len(semester_id))
-
             cursor.execute(
-                f"""
+                """
                 SELECT semester_id
                 FROM semesters
-                WHERE semester_id IN ({placeholders})
+                WHERE semester_id = %s
                 """,
-                tuple(semester_id),
+                (semester_id,),
             )
-            existing_ids = {row["semester_id"] for row in cursor.fetchall()}
 
-            missing_ids = [sid for sid in semester_id if sid not in existing_ids]
-
-            if missing_ids:
+            if cursor.fetchone() is None:
                 raise HTTPException(
                     status_code=422,
                     detail={
-                        "message": "Invalid semester ID(s).",
-                        "invalid_semester_ids": missing_ids,
+                        "message": "Invalid semester ID.",
+                        "invalid_semester_id": semester_id,
                     },
                 )
 
@@ -189,9 +181,8 @@ def courses(
             parameters = []
 
             # Required filter for semester
-            placeholders = ", ".join(["%s"] * len(semester_id))
-            conditions.append(f"s.semester_offered_id IN ({placeholders})")
-            parameters.extend(semester_id)
+            conditions.append("s.semester_offered_id = %s")
+            parameters.append(semester_id)
 
             # Optional subject codes.
             if subject_code:
