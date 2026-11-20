@@ -106,7 +106,8 @@ def test_courses_location_filters_format_with_pymysql(
         formatted_queries.append(cursor.mogrify(query, parameters))
 
     mock_db.cursor.execute.side_effect = execute
-    mock_db.cursor.fetchall.side_effect = [[{"semester_id": 1}], []]
+    mock_db.cursor.fetchone.return_value = {"semester_id": 1}
+    mock_db.cursor.fetchall.return_value = []
 
     response = client.get(f"/courses?semester_id=1&location={location}")
 
