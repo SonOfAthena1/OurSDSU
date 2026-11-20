@@ -8,7 +8,8 @@ from app.main import decode_meeting_days
 @pytest.fixture(autouse=True)
 def existing_semester(mock_db):
     # First query finds semester 1; the course query returns no rows by default.
-    mock_db.cursor.fetchall.side_effect = [[{"semester_id": 1}], []]
+    mock_db.cursor.fetchone.return_value = {"semester_id": 1}
+    mock_db.cursor.fetchall.return_value = []
 
 
 @pytest.mark.parametrize(
@@ -344,4 +345,22 @@ def test_courses_reject_timezone_suffixes(
     assert (
         response.status_code == 422
     )  # Should fail this check until handled on the backend (TypeError: can't compare offset-naive and offset-aware times)
+    mock_db.connect.assert_not_called()
+
+@pytest.mark.parametrize(
+    "semester_ids",
+    [
+        "6,7",
+        "1,2,3",
+    ],
+)
+def test_courses_reject_multiple_semesters(client, mock_db, semester_ids):
+    response = client.get(
+        "/courses",
+        params={
+            "semester_id": semester_ids,
+        }
+    )
+
+    assert response.status_code == 422
     mock_db.connect.assert_not_called()
