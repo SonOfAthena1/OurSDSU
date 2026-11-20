@@ -20,9 +20,8 @@ function Home() {
   } | null>(null);
 
   /**
-   * If a semesterId is in the current semesterIds array, removes
-   * it from the array. If it's not in the array, adds it to the array.
-   * @param semesterId the semester ID to add or remove
+   * Set the selected semester ID to the input semester ID
+   * @param semesterId the semester ID to be selected
    */
   function toggleSemester(semesterId: number) {
     setSelectedSemesterId(semesterId);
