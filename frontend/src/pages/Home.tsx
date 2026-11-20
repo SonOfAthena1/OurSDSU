@@ -8,7 +8,6 @@ function Home() {
   const {
     courses,
     semesters,
-    geCategories,
     selectedSemesterId,
     setSelectedSemesterId,
   } = useCourseContext();
