@@ -134,37 +134,37 @@ def test_courses_decode_meeting_days(day_mask, expected_days):
 
 # Tests for several combinations of date and time
 def test_courses_generic_mwf(client, mock_db):
-    mock_db.cursor.fetchall.side_effect = [
-        [{"semester_id": 1}],
-        [
-            {
-                "course_id": 100,
-                "subject_code": "CS",
-                "course_number": 210,
-                "course_name": "Data Structures",
-                "course_description": "Introduction to data structures",
-                "prerequisites": None,
-                "units": 3,
-                "ge_category_id": None,
-                "ge_category_code": None,
-                "ge_category": None,
-                "section_id": 101,
-                "semester_id": 1,
-                "semester_name": "Fall",
-                "year": 2026,
-                "instructor_id": 50,
-                "instructor_name": "Test Instructor",
-                "instructor_rating": 4.5,
-                "meeting_days": 21,
-                "start_time": timedelta(hours=8, minutes=30),
-                "end_time": timedelta(hours=9, minutes=45),
-                "class_location": "GMCS 325",
-                "current_enrollment": 20,
-                "max_enrollment": 30,
-                "waitlist_size": 0,
-                "available_seats": 10,
-            }
-        ],
+    mock_db.cursor.fetchone.return_value = {"semester_id": 1}
+
+    # Mock the course query
+    mock_db.cursor.fetchall.return_value = [
+        {
+            "course_id": 100,
+            "subject_code": "CS",
+            "course_number": 210,
+            "course_name": "Data Structures",
+            "course_description": "Introduction to data structures",
+            "prerequisites": None,
+            "units": 3,
+            "ge_category_id": None,
+            "ge_category_code": None,
+            "ge_category": None,
+            "section_id": 101,
+            "semester_id": 1,
+            "semester_name": "Fall",
+            "year": 2026,
+            "instructor_id": 50,
+            "instructor_name": "Test Instructor",
+            "instructor_rating": 4.5,
+            "meeting_days": 21,
+            "start_time": timedelta(hours=8, minutes=30),
+            "end_time": timedelta(hours=9, minutes=45),
+            "class_location": "GMCS 325",
+            "current_enrollment": 20,
+            "max_enrollment": 30,
+            "waitlist_size": 0,
+            "available_seats": 10,
+        }
     ]
 
     response = client.get("/courses", params={"semester_id": 1, "days": 21})
@@ -190,10 +190,9 @@ def test_courses_generic_mwf(client, mock_db):
 
 
 def test_courses_generic_tth(client, mock_db):
-    mock_db.cursor.fetchall.side_effect = [
-        [{"semester_id": 1}],  # First pass for the semester
-        [],  # Second pass for the filtered database itself
-    ]
+    mock_db.cursor.fetchone.return_value = {"semester_id": 1}
+
+    mock_db.cursor.fetchall.return_value = []
 
     response = client.get("/courses?semester_id=1&days=10")  # Tue = 2, Thr = 8
 
@@ -347,6 +346,7 @@ def test_courses_reject_timezone_suffixes(
     )  # Should fail this check until handled on the backend (TypeError: can't compare offset-naive and offset-aware times)
     mock_db.connect.assert_not_called()
 
+
 @pytest.mark.parametrize(
     "semester_ids",
     [
@@ -359,7 +359,7 @@ def test_courses_reject_multiple_semesters(client, mock_db, semester_ids):
         "/courses",
         params={
             "semester_id": semester_ids,
-        }
+        },
     )
 
     assert response.status_code == 422
