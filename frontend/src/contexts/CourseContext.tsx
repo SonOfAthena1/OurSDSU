@@ -5,7 +5,9 @@ import type { Course } from "../types/course";
 import { getCourses } from "../api/devCourses";
 import type { Semester } from "../types/semester";
 import type { GEcategory } from "../types/geCategory";
+// import { getSemesters } from "../api/semesters";
 import { getSemesters } from "../api/devSemesters";
+// import { getGEcategories } from "../api/GEcategories";
 import { getGEcategories } from "../api/devGEcategories";
 
 type CourseProviderProps = {
