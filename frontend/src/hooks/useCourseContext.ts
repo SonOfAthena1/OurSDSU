@@ -12,8 +12,8 @@ type CourseContextValue = {
   courses: Course[];
   semesters: Semester[];
   geCategories: GEcategory[];
-  selectedSemesterIds: number[];
-  setSelectedSemesterIds: Dispatch<SetStateAction<number[]>>;
+  selectedSemesterId: number;
+  setSelectedSemesterId: Dispatch<SetStateAction<number>>;
   setCourses: Dispatch<SetStateAction<Course[]>>;
   setSemesters: Dispatch<SetStateAction<Semester[]>>;
   setGEcategories: Dispatch<SetStateAction<GEcategory[]>>;
