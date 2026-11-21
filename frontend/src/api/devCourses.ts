@@ -218,9 +218,7 @@ const sampleResponse: { results: Course[] } = {
  * Temporary placeholder for the eventual backend connection
  * @returns a list of Course objects: { results: Course[] }
  */
-export async function getCourses(
-  semesterId: number = 0,
-): Promise<Course[]> {
+export async function getCourses(semesterId: number = 0): Promise<Course[]> {
   if (semesterId === 0) {
     return sampleResponse.results;
   }
@@ -228,8 +226,8 @@ export async function getCourses(
   return sampleResponse.results
     .map((course) => ({
       ...course,
-      sections: course.sections.filter((section) =>
-        semesterId === section.semester_id,
+      sections: course.sections.filter(
+        (section) => semesterId === section.semester_id,
       ),
     }))
     .filter((course) => course.sections.length > 0);

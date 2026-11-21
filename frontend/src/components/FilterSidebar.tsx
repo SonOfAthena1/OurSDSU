@@ -1,9 +1,6 @@
 function FilterSidebar() {
   return (
-    <aside
-      className="py-3"
-      aria-labelledby="filters-heading"
-    >
+    <aside className="py-3" aria-labelledby="filters-heading">
       <h2 id="filters-heading" className="h5">
         Filters
       </h2>
