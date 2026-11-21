@@ -1,6 +1,6 @@
 // code calling the backend goes here
 import type { Course } from "../types/course";
-import type { SearchFilters } from "../types/SearchFilters"
+import type { SearchFilters } from "../types/SearchFilters";
 
 type CoursesResponse = {
   results: Course[];
@@ -48,7 +48,7 @@ export async function getCourses(
     params.set("only_open_classes", "true");
   }
 
-  console.log(params.toString())
+  console.log(params.toString());
 
   const response = await fetch(`http://localhost:8000/courses?${params}`);
 

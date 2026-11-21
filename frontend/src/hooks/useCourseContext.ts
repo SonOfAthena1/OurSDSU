@@ -13,10 +13,20 @@ type CourseContextValue = {
   semesters: Semester[];
   geCategories: GEcategory[];
   selectedSemesterId: number;
+  submittedSearch: {
+    subject: string;
+    courseNumber?: number | null;
+  } | null;
   setSelectedSemesterId: Dispatch<SetStateAction<number>>;
   setCourses: Dispatch<SetStateAction<Course[]>>;
   setSemesters: Dispatch<SetStateAction<Semester[]>>;
   setGEcategories: Dispatch<SetStateAction<GEcategory[]>>;
+  setSubmittedSearch: Dispatch<
+    SetStateAction<{
+      subject: string;
+      courseNumber?: number | null;
+    } | null>
+  >;
 };
 
 export const CourseContext = createContext<CourseContextValue | undefined>(

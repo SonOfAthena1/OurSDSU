@@ -10,14 +10,11 @@ function Home() {
     semesters,
     selectedSemesterId,
     setSelectedSemesterId,
+    setSubmittedSearch,
   } = useCourseContext();
 
   const [searchText, setSearchText] = useState("");
   const [searchError, setSearchError] = useState("");
-  const [submittedSearch, setSubmittedSearch] = useState<{
-    subject: string;
-    courseNumber: number;
-  } | null>(null);
 
   /**
    * Set the selected semester ID to the input semester ID
@@ -38,35 +35,36 @@ function Home() {
 
     const query = searchText.trim();
 
-    if (query === "") {
-      setSearchError("Enter a course to search for.");
-      return;
-    }
+    // if (query === "") {
+    //   setSearchError("Enter a course to search for.");
+    //   return;
+    // }
 
     /**
      * match[0] = "cs 210" — the entire match  \
      * match[1] = "cs"     — first captured group  \
      * match[2] = "210"    — second captured group  \
      */
-    const match = query.match(/^([a-z]+)\s*(\d+)$/i);
+    const match = query.match(/^([a-z]+)(?:\s*(\d+))?$/i);
     /*
      * `^`       -> Start of the text
      * `([a-z]+)` -> One or more letters; remember them as group 1
      * `\s*`     -> Zero or more whitespace characters
      * `(\d+)`  -> One or more digits; remember them as group 2
+     * The ?: inside the parentheses makes the outer group non-capturing
+     * The ? after the closing parenthesis makes the whole spaces-and-digits group optional.
      * `$`      -> End of the text
      * `i`      -> Accept uppercase and lowercase letters
      */
 
     if (match === null) {
-      setSearchError("Enter a subject and course number, like CS 210.");
+      setSubmittedSearch(null);
       return;
     }
 
     const subject = match[1].toUpperCase();
-    const courseNumber = Number(match[2]);
+    const courseNumber = match[2] === undefined ? null : Number(match[2]);
 
-    console.log({ subject, courseNumber });
     console.log(query);
 
     setSubmittedSearch({ subject, courseNumber });
@@ -83,20 +81,20 @@ function Home() {
           <h1>Welcome to OurSDSU</h1>
           <p>Find courses and explore your next semester.</p>
 
-      <div>
-        {semesters.map((semester) => (
-          <Button
-            key={semester.semester_id}
-            type="button"
-            variant="outline-primary"
-            active={selectedSemesterId === semester.semester_id}
-            aria-pressed={selectedSemesterId === semester.semester_id} // communciates state to screen readers
-            onClick={() => toggleSemester(semester.semester_id)}
-          >
-            {semester.semester_name} {semester.year}
-          </Button>
-        ))}
-      </div>
+          <div>
+            {semesters.map((semester) => (
+              <Button
+                key={semester.semester_id}
+                type="button"
+                variant="outline-primary"
+                active={selectedSemesterId === semester.semester_id}
+                aria-pressed={selectedSemesterId === semester.semester_id} // communciates state to screen readers
+                onClick={() => toggleSemester(semester.semester_id)}
+              >
+                {semester.semester_name} {semester.year}
+              </Button>
+            ))}
+          </div>
 
           <form onSubmit={handleSearch}>
             <label htmlFor="course-search">Search courses</label>
