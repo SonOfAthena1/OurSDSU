@@ -1,12 +1,15 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { CourseContext } from "../hooks/useCourseContext";
 import type { Course } from "../types/course";
-//import { getCourses } from "../api/courses";
-import { getCourses } from "../api/devCourses";
+import type { SearchFilters } from "../types/SearchFilters";
+import { getCourses } from "../api/courses";
 import type { Semester } from "../types/semester";
 import type { GEcategory } from "../types/geCategory";
-import { getSemesters } from "../api/devSemesters";
-import { getGEcategories } from "../api/devGEcategories";
+import { getSemesters } from "../api/semesters";
+import { getGEcategories } from "../api/GEcategories";
+// import { getSemesters } from "../api/devSemesters";
+// import { getCourses } from "../api/devCourses";
+// import { getGEcategories } from "../api/devGEcategories";
 
 type CourseProviderProps = {
   children: ReactNode;
@@ -17,17 +20,24 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [semesters, setSemesters] = useState<Semester[]>([]);
   const [geCategories, setGEcategories] = useState<GEcategory[]>([]);
+
   const [selectedSemesterId, setSelectedSemesterId] = useState<number>(0);
+  const [submittedSearch, setSubmittedSearch] = useState<{
+    subject: string;
+    courseNumber?: number | null;
+  } | null>(null);
 
   const value = {
     courses,
     setCourses,
     semesters,
     setSemesters,
-    selectedSemesterId,
-    setSelectedSemesterId,
     geCategories,
     setGEcategories,
+    selectedSemesterId,
+    setSelectedSemesterId,
+    submittedSearch,
+    setSubmittedSearch,
   };
 
   useEffect(() => {
@@ -50,12 +60,18 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     void loadGEcategories();
   }, []);
 
+  // Calls getCourses(filterParams)
   useEffect(() => {
     if (selectedSemesterId === 0) return;
     let ignore = false;
 
+    const searchFilter: SearchFilters = {
+      subject: submittedSearch?.subject,
+      courseNumber: submittedSearch?.courseNumber,
+    };
+
     async function loadCourses() {
-      const data = await getCourses(selectedSemesterId);
+      const data = await getCourses(selectedSemesterId, searchFilter);
 
       if (!ignore) {
         setCourses(data);
@@ -67,7 +83,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     return () => {
       ignore = true;
     };
-  }, [selectedSemesterId]);
+  }, [submittedSearch, selectedSemesterId]);
 
   return (
     <CourseContext.Provider value={value}>{children}</CourseContext.Provider>

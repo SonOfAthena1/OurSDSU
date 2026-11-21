@@ -45,9 +45,7 @@ function CourseCard({ course }: CourseCardProps) {
                   focusable="false"
                 >
                   <path
-                    d={
-                      sectionsOpen ? "M6 9 L12 15 L18 9" : "M9 6 L15 12 L9 18"
-                    }
+                    d={sectionsOpen ? "M6 9 L12 15 L18 9" : "M9 6 L15 12 L9 18"}
                   />
                 </svg>
               </Button>
@@ -117,7 +115,10 @@ function CourseCard({ course }: CourseCardProps) {
                   </div>
 
                   <div className="col-12 col-md-2">
-                    <div>{section.max_enrollment} seats</div>
+                    <div>
+                      {section.current_enrollment}/{section.max_enrollment}{" "}
+                      seats
+                    </div>
                   </div>
                 </div>
               </li>
