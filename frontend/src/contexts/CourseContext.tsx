@@ -1,8 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { CourseContext } from "../hooks/useCourseContext";
 import type { Course } from "../types/course";
-//import { getCourses } from "../api/courses";
-import { getCourses } from "../api/devCourses";
+import { getCourses } from "../api/courses";
+// import { getCourses } from "../api/devCourses";
 import type { Semester } from "../types/semester";
 import type { GEcategory } from "../types/geCategory";
 // import { getSemesters } from "../api/semesters";
