@@ -117,7 +117,7 @@ function CourseCard({ course }: CourseCardProps) {
                   </div>
 
                   <div className="col-12 col-md-2">
-                    <div>{section.max_enrollment} seats</div>
+                    <div>{section.current_enrollment}/{section.max_enrollment} seats</div>
                   </div>
                 </div>
               </li>
