@@ -34,7 +34,7 @@ function FilterSidebar() {
                 geCategory.ge_category_id,
               )}
               onChange={() => toggleGECategory(geCategory.ge_category_id)}
-              label={geCategory.ge_category}
+              label={`${geCategory.ge_category_code} — ${geCategory.ge_category}`}
             />
           ))}
         </div>
