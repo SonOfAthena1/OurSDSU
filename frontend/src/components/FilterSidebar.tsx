@@ -5,21 +5,12 @@ function FilterSidebar() {
   const { geCategories, selectedGECategoryIds, setSelectedGECategoryIds } =
     useCourseContext();
 
-    /**
-     * Changes current state of checkbox
-     * if gecategory id is in array, removes it
-     * else, adds it to array
-     * @param GECategoryId 
-     *
-     */
-  function toggleGECategory(GECategoryId: number) {
-    setSelectedGECategoryIds(
-      (previousIds) =>
-        previousIds.includes(GECategoryId)
-          ? previousIds.filter((id) => id !== GECategoryId) // remove it
-          : [...previousIds, GECategoryId], // add it
+  function toggleGECategory(geCategoryId: number) {
+    setSelectedGECategoryIds((previousIds) =>
+      previousIds.includes(geCategoryId)
+        ? previousIds.filter((id) => id !== geCategoryId)
+        : [...previousIds, geCategoryId],
     );
-    console.log(selectedGECategoryIds)
   }
 
   return (
@@ -33,17 +24,14 @@ function FilterSidebar() {
       </p>
       <Form>
         <div>
-          {geCategories.map((geCategories) => (
+          {geCategories.map((geCategory) => (
             <Form.Check
-              key={geCategories.ge_category_id}
+              key={geCategory.ge_category_id}
+              id={`ge-category-${geCategory.ge_category_id}`}
               type="checkbox"
-
-              aria-pressed={selectedGECategoryIds.includes(
-                geCategories.ge_category_id,
-              )} // communciates state to screen readers
-              onClick={() => toggleGECategory(geCategories.ge_category_id)}
-
-              label={`${geCategories.ge_category}`}
+              checked={selectedGECategoryIds.includes(geCategory.ge_category_id)}
+              onChange={() => toggleGECategory(geCategory.ge_category_id)}
+              label={geCategory.ge_category}
             />
           ))}
         </div>
