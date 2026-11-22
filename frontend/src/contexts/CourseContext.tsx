@@ -73,6 +73,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     const searchFilter: SearchFilters = {
       subject: submittedSearch?.subject,
       courseNumber: submittedSearch?.courseNumber,
+      geCategories: selectedGECategoryIds,
     };
 
     async function loadCourses() {
