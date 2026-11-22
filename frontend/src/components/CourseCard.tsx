@@ -14,8 +14,10 @@ function CourseCard({ course }: CourseCardProps) {
     <article className="card mb-3">
       <div className="card-body">
         <h2 className="h5 mb-1">
-          {course.subject_code} {course.course_number}: {course.course_name}
+          {course.subject_code} {course.course_number}: {course.course_name} (
+          {course.units} units)
         </h2>
+        <p className="mb-0">{course.course_description}</p>
       </div>
 
       <div className="px-3 py-2">
