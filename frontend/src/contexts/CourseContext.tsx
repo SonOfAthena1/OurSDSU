@@ -89,7 +89,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     return () => {
       ignore = true;
     };
-  }, [submittedSearch, selectedSemesterId]);
+  }, [submittedSearch, selectedSemesterId, selectedGECategoryIds]);
 
   return (
     <CourseContext.Provider value={value}>{children}</CourseContext.Provider>
