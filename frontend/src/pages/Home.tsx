@@ -1,6 +1,6 @@
 import { useCourseContext } from "../hooks/useCourseContext";
 import CourseCard from "../components/CourseCard";
-import { useState, type SubmitEvent } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import { Button } from "react-bootstrap";
 import FilterSidebar from "../components/FilterSidebar";
 
@@ -69,6 +69,25 @@ function Home() {
 
     setSubmittedSearch({ subject, courseNumber });
   }
+
+  // useEffect (() => {
+  //   const query = searchText.trim();
+
+  //   const match = query.match(/^([a-z]+)(?:\s*(\d+))?$/i);
+  
+  //   if (match === null) {
+  //     setSubmittedSearch(null);
+  //     return;
+  //   }
+
+  //   const subject = match[1].toUpperCase();
+  //   const courseNumber = match[2] === undefined ? null : Number(match[2]);
+
+  //   console.log(query);
+
+  //   setSubmittedSearch({ subject, courseNumber });
+
+  // }, [searchText])
 
   return (
     <section className="container-fluid px-4 py-5">
