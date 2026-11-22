@@ -29,7 +29,9 @@ function FilterSidebar() {
               key={geCategory.ge_category_id}
               id={`ge-category-${geCategory.ge_category_id}`}
               type="checkbox"
-              checked={selectedGECategoryIds.includes(geCategory.ge_category_id)}
+              checked={selectedGECategoryIds.includes(
+                geCategory.ge_category_id,
+              )}
               onChange={() => toggleGECategory(geCategory.ge_category_id)}
               label={geCategory.ge_category}
             />
