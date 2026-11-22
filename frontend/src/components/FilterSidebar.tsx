@@ -6,10 +6,11 @@ function FilterSidebar() {
     useCourseContext();
 
   function toggleGECategory(geCategoryId: number) {
-    setSelectedGECategoryIds((previousIds) =>
-      previousIds.includes(geCategoryId)
-        ? previousIds.filter((id) => id !== geCategoryId)
-        : [...previousIds, geCategoryId],
+    setSelectedGECategoryIds(
+      (previousIds) =>
+        previousIds.includes(geCategoryId)
+          ? previousIds.filter((id) => id !== geCategoryId) // keep every ID except input (remove it)
+          : [...previousIds, geCategoryId], // Add it to the list
     );
   }
 
