@@ -101,7 +101,7 @@ function CourseCard({ course }: CourseCardProps) {
                   <div className="col-12 col-md-2">
                     <div>
                       {section.start_time && section.end_time
-                        ? `${section.start_time} – ${section.end_time}`
+                        ? `${section.start_time.split(":").slice(0, 2).join(":")} – ${section.end_time.split(":").slice(0, 2).join(":")}`
                         : "Time not listed"}
                     </div>
                   </div>

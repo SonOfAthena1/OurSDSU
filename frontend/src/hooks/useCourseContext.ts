@@ -17,6 +17,7 @@ type CourseContextValue = {
     subject: string;
     courseNumber?: number | null;
   } | null;
+  selectedGECategoryIds: number[];
   setSelectedSemesterId: Dispatch<SetStateAction<number>>;
   setCourses: Dispatch<SetStateAction<Course[]>>;
   setSemesters: Dispatch<SetStateAction<Semester[]>>;
@@ -27,6 +28,7 @@ type CourseContextValue = {
       courseNumber?: number | null;
     } | null>
   >;
+  setSelectedGECategoryIds: Dispatch<SetStateAction<number[]>>;
 };
 
 export const CourseContext = createContext<CourseContextValue | undefined>(

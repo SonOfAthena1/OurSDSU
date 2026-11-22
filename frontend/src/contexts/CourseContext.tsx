@@ -26,6 +26,9 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     subject: string;
     courseNumber?: number | null;
   } | null>(null);
+  const [selectedGECategoryIds, setSelectedGECategoryIds] = useState<number[]>(
+    [],
+  );
 
   const value = {
     courses,
@@ -38,6 +41,8 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     setSelectedSemesterId,
     submittedSearch,
     setSubmittedSearch,
+    selectedGECategoryIds,
+    setSelectedGECategoryIds,
   };
 
   useEffect(() => {
@@ -68,6 +73,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     const searchFilter: SearchFilters = {
       subject: submittedSearch?.subject,
       courseNumber: submittedSearch?.courseNumber,
+      geCategories: selectedGECategoryIds,
     };
 
     async function loadCourses() {
@@ -83,7 +89,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     return () => {
       ignore = true;
     };
-  }, [submittedSearch, selectedSemesterId]);
+  }, [submittedSearch, selectedSemesterId, selectedGECategoryIds]);
 
   return (
     <CourseContext.Provider value={value}>{children}</CourseContext.Provider>
