@@ -23,16 +23,20 @@ VALUES
 -- Sample GE requirements --
 INSERT INTO ge_categories(ge_category_code, ge_category)
 VALUES
-('0A', 'Mathematics');
+('2', 'Math'),
+('1A', 'English Composition'),
+('1B', 'Critical Thinking'),
+('3B', 'Humanities'),
+('3A', 'Arts')
 
 -- Sample courses --
 INSERT INTO courses(course_name, subject_code, course_number, course_description, prerequisites, ge_coverage, units) -- course id 1 - 5
 VALUES
 ('Fundamentals of Computer Science I', 'CS', 101, 'Introductory course to the fundamentals of Computer Science.', NULL, NULL, 3),
 ('Fundamentals of Computer Science II', 'CS', 102, 'Intermediate course to the fundamentals of Computer Science.', 'CS 101', NULL, 3),
-('Advanced Theaternomic studies', 'THEA', 104, 'Advanced course dedicated to film studies and lighting', NULL, NULL, 3),
+('Advanced Theaternomic studies', 'THEA', 104, 'Advanced course dedicated to film studies and lighting', NULL, 5, 3),
 ('Data Structure', 'CS', 210, 'Introduction to data structures.', NULL, NULL, 3),
-('Introduction to statistics', 'MATH', 103, 'Introductory course to Statistics.', NULL, NULL, 3);
+('Introduction to statistics', 'MATH', 103, 'Introductory course to Statistics.', NULL, 1, 3);
 -- Sample data for semesters --
 INSERT INTO semesters(semester_name, year)
 VALUES
