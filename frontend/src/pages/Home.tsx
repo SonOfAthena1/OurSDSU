@@ -115,7 +115,7 @@ function Home() {
             ))}
           </div>
 
-          <form onSubmit={handleSearch}>
+          <form className="mb-4" onSubmit={handleSearch}>
             <label htmlFor="course-search">Search courses</label>
             <input
               id="course-search"
