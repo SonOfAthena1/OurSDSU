@@ -13,11 +13,21 @@ type CourseContextValue = {
   semesters: Semester[];
   geCategories: GEcategory[];
   selectedSemesterId: number;
+  submittedSearch: {
+    subject: string;
+    courseNumber?: number | null;
+  } | null;
+  selectedGECategoryIds: number[];
   setSelectedSemesterId: Dispatch<SetStateAction<number>>;
   setCourses: Dispatch<SetStateAction<Course[]>>;
   setSemesters: Dispatch<SetStateAction<Semester[]>>;
   setGEcategories: Dispatch<SetStateAction<GEcategory[]>>;
-  selectedGECategoryIds: number[];
+  setSubmittedSearch: Dispatch<
+    SetStateAction<{
+      subject: string;
+      courseNumber?: number | null;
+    } | null>
+  >;
   setSelectedGECategoryIds: Dispatch<SetStateAction<number[]>>;
 };
 
