@@ -8,6 +8,10 @@ import type { Course } from "../types/course";
 import type { Semester } from "../types/semester";
 import type { GEcategory } from "../types/geCategory";
 
+
+/**
+ * The blueprint of our context object
+ */
 type CourseContextValue = {
   courses: Course[];
   semesters: Semester[];
@@ -18,6 +22,7 @@ type CourseContextValue = {
     courseNumber?: number | null;
   } | null;
   selectedGECategoryIds: number[];
+  dayMaskList: number[];
   setSelectedSemesterId: Dispatch<SetStateAction<number>>;
   setCourses: Dispatch<SetStateAction<Course[]>>;
   setSemesters: Dispatch<SetStateAction<Semester[]>>;
@@ -29,6 +34,7 @@ type CourseContextValue = {
     } | null>
   >;
   setSelectedGECategoryIds: Dispatch<SetStateAction<number[]>>;
+  setDayMaskList: Dispatch<SetStateAction<number[]>>;
 };
 
 export const CourseContext = createContext<CourseContextValue | undefined>(
