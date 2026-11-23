@@ -1,6 +1,6 @@
 import { useCourseContext } from "../hooks/useCourseContext";
 import CourseCard from "../components/CourseCard";
-import { useEffect, useState, type SubmitEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { Button } from "react-bootstrap";
 import FilterSidebar from "../components/FilterSidebar";
 
