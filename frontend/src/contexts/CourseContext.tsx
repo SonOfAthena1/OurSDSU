@@ -29,7 +29,11 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   const [selectedGECategoryIds, setSelectedGECategoryIds] = useState<number[]>(
     [],
   );
+  const [dayMaskList, setDayMaskList] = useState<number[]>([]);
 
+  /**
+   * The actual context object's value
+   */
   const value = {
     courses,
     setCourses,
@@ -43,6 +47,8 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     setSubmittedSearch,
     selectedGECategoryIds,
     setSelectedGECategoryIds,
+    dayMaskList,
+    setDayMaskList,
   };
 
   useEffect(() => {
@@ -69,11 +75,17 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   useEffect(() => {
     if (selectedSemesterId === 0) return;
     let ignore = false;
+    let daysMask: number | null = null;
+
+    if (dayMaskList.length !== 0) {
+      daysMask = dayMaskList.reduce((total, current) => total + current, 0);
+    }
 
     const searchFilter: SearchFilters = {
       subject: submittedSearch?.subject,
       courseNumber: submittedSearch?.courseNumber,
       geCategories: selectedGECategoryIds,
+      days: daysMask,
     };
 
     async function loadCourses() {
@@ -89,7 +101,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     return () => {
       ignore = true;
     };
-  }, [submittedSearch, selectedSemesterId, selectedGECategoryIds]);
+  }, [submittedSearch, selectedSemesterId, selectedGECategoryIds, dayMaskList]);
 
   return (
     <CourseContext.Provider value={value}>{children}</CourseContext.Provider>

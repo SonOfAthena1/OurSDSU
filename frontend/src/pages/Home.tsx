@@ -1,6 +1,6 @@
 import { useCourseContext } from "../hooks/useCourseContext";
 import CourseCard from "../components/CourseCard";
-import { useEffect, useState, type SubmitEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { Button } from "react-bootstrap";
 import FilterSidebar from "../components/FilterSidebar";
 
@@ -74,7 +74,7 @@ function Home() {
   //   const query = searchText.trim();
 
   //   const match = query.match(/^([a-z]+)(?:\s*(\d+))?$/i);
-  
+
   //   if (match === null) {
   //     setSubmittedSearch(null);
   //     return;
