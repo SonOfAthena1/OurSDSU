@@ -8,7 +8,6 @@ import type { Course } from "../types/course";
 import type { Semester } from "../types/semester";
 import type { GEcategory } from "../types/geCategory";
 
-
 /**
  * The blueprint of our context object
  */

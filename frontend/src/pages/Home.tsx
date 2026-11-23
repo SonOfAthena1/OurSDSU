@@ -74,7 +74,7 @@ function Home() {
   //   const query = searchText.trim();
 
   //   const match = query.match(/^([a-z]+)(?:\s*(\d+))?$/i);
-  
+
   //   if (match === null) {
   //     setSubmittedSearch(null);
   //     return;

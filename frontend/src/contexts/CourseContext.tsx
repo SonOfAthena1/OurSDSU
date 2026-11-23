@@ -31,6 +31,9 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
   );
   const [dayMaskList, setDayMaskList] = useState<number[]>([]);
 
+  /**
+   * The actual context object's value
+   */
   const value = {
     courses,
     setCourses,
@@ -75,7 +78,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     let daysMask: number | null = null;
 
     if (dayMaskList.length !== 0) {
-      daysMask = dayMaskList.reduce((total, current) => total + current, 0)
+      daysMask = dayMaskList.reduce((total, current) => total + current, 0);
     }
 
     const searchFilter: SearchFilters = {
