@@ -18,7 +18,7 @@ function FilterSidebar() {
     setDayMaskList,
   } = useCourseContext();
 
-  function addToDayMaskList(num: number) {
+  function toggleDayMaskList(num: number) {
     setDayMaskList(
       (prevDayNums) =>
         prevDayNums.includes(num)
@@ -70,8 +70,8 @@ function FilterSidebar() {
               id={`day-${num}`}
               type="checkbox"
               checked={dayMaskList.includes(num)}
-              onChange={() => addToDayMaskList(num)}
-              label={`${day}`}
+              onChange={() => toggleDayMaskList(num)}
+              label={day}
             />
           ))}
         </div>
