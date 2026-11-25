@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/Form";
 import { useCourseContext } from "../hooks/useCourseContext";
+import { useState } from "react";
 
 const dayMap: Record<string, number> = {
   Monday: 1,
@@ -10,6 +11,8 @@ const dayMap: Record<string, number> = {
 };
 
 function FilterSidebar() {
+
+
   const {
     geCategories,
     selectedGECategoryIds,
@@ -35,8 +38,10 @@ function FilterSidebar() {
           : [...previousIds, geCategoryId], // Add it to the list
     );
   }
+  const [rangeval, setRangeVal] = useState(1);
 
   return (
+    
     <aside className="py-3" aria-labelledby="filters-heading">
       <h2 id="filters-heading" className="h5">
         Filters
@@ -76,7 +81,22 @@ function FilterSidebar() {
           ))}
         </div>
       </Form>
+      <div>
+        <>
+       
+        <Form.Label>{rangeval}</Form.Label>
+        <Form.Range
+        min = {0}
+        max = {24}
+        step = {0.5}
+        value = {rangeval}
+        onChange={(event) => setRangeVal(Number(event.target.value))}
+        />
+    </>
+      </div>
+     
     </aside>
+    
   );
 }
 
