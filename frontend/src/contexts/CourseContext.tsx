@@ -30,6 +30,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     [],
   );
   const [dayMaskList, setDayMaskList] = useState<number[]>([]);
+  const [startAfter, setStartAfter] = useState<number>(0);
 
   /**
    * The actual context object's value
@@ -49,6 +50,8 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     setSelectedGECategoryIds,
     dayMaskList,
     setDayMaskList,
+    startAfter,
+    setStartAfter
   };
 
   useEffect(() => {
@@ -81,11 +84,20 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
       daysMask = dayMaskList.reduce((total, current) => total + current, 0);
     }
 
+    // set some variable equal to properly formatted string
+
+    // set start before time to 24
+    // set start after to 1
+    let startAfterStr = `${String(Math.trunc(startAfter)).padStart(2, "0")}:${String((startAfter % 1) * 60).padStart(2, "0")}:00`;
+
     const searchFilter: SearchFilters = {
       subject: submittedSearch?.subject,
       courseNumber: submittedSearch?.courseNumber,
       geCategories: selectedGECategoryIds,
       days: daysMask,
+      earlyStartTime: startAfterStr
+      // earlyStartTime: range
+
     };
 
     async function loadCourses() {
@@ -101,7 +113,8 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     return () => {
       ignore = true;
     };
-  }, [submittedSearch, selectedSemesterId, selectedGECategoryIds, dayMaskList]);
+  
+  }, [submittedSearch, selectedSemesterId, selectedGECategoryIds, dayMaskList, startAfter]);
 
   return (
     <CourseContext.Provider value={value}>{children}</CourseContext.Provider>
