@@ -18,6 +18,8 @@ function FilterSidebar() {
     setDayMaskList,
     startAfter,
     setStartAfter,
+    startBefore,
+    setStartBefore,
   } = useCourseContext();
 
   function toggleDayMaskList(num: number) {
@@ -80,13 +82,30 @@ function FilterSidebar() {
       </Form>
       <div>
         <>
-          <Form.Label>Start After: {`${Math.trunc(startAfter)}:${String((startAfter % 1) * 60).padStart(2, "0")}`}</Form.Label>
+          <Form.Label>
+            Start After:{" "}
+            {`${Math.trunc(startAfter)}:${String((startAfter % 1) * 60).padStart(2, "0")}`}
+          </Form.Label>
           <Form.Range
             min={0}
             max={24}
             step={0.5} // 0.5 to represent 30 minute intervals
             value={startAfter}
-            onChange={(event) =>  setStartAfter(Number(event.target.value))}
+            onChange={(event) => setStartAfter(Number(event.target.value))}
+          />
+        </>
+
+        <>
+          <Form.Label>
+            Start Before:{" "}
+            {`${Math.trunc(startBefore)}:${String((startBefore % 1) * 60).padStart(2, "0")}`}
+          </Form.Label>
+          <Form.Range
+            min={0}
+            max={23}
+            step={0.5} // 0.5 to represent 30 minute intervals
+            value={startBefore}
+            onChange={(event) => setStartBefore(Number(event.target.value))}
           />
         </>
       </div>
