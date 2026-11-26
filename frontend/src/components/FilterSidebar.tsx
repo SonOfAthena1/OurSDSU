@@ -40,6 +40,8 @@ function FilterSidebar() {
     );
   }
 
+  
+
   return (
     <aside className="py-3" aria-labelledby="filters-heading">
       <h2 id="filters-heading" className="h5">
@@ -88,10 +90,14 @@ function FilterSidebar() {
           </Form.Label>
           <Form.Range
             min={0}
-            max={24}
+            max={23}
             step={0.5} // 0.5 to represent 30 minute intervals
             value={startAfter}
-            onChange={(event) => setStartAfter(Number(event.target.value))}
+            onChange={(event) => {
+              if(startBefore > startAfter){setStartAfter(Number(event.target.value))}
+            else{
+              setStartAfter(Number(startBefore) - 2)
+            }}}
           />
         </>
 
@@ -105,7 +111,11 @@ function FilterSidebar() {
             max={23}
             step={0.5} // 0.5 to represent 30 minute intervals
             value={startBefore}
-            onChange={(event) => setStartBefore(Number(event.target.value))}
+            onChange={(event) => {
+              if (startAfter < startBefore){setStartBefore(Number(event.target.value))}
+            else{
+              setStartBefore(Number(startAfter)+2)
+            }}}
           />
         </>
       </div>
