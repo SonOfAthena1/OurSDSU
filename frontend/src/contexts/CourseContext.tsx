@@ -91,8 +91,8 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
 
     // set start before time to 24
     // set start after to 1
-    let startAfterStr = `${String(Math.trunc(startAfter)).padStart(2, "0")}:${String((startAfter % 1) * 60).padStart(2, "0")}:00`;
-    let setBeforeStr = `${String(Math.trunc(startBefore)).padStart(2, "0")}:${String((startBefore % 1) * 60).padStart(2, "0")}:00`;
+    const startAfterStr = `${String(Math.trunc(startAfter)).padStart(2, "0")}:${String((startAfter % 1) * 60).padStart(2, "0")}:00`;
+    const setBeforeStr = `${String(Math.trunc(startBefore)).padStart(2, "0")}:${String((startBefore % 1) * 60).padStart(2, "0")}:00`;
 
     const searchFilter: SearchFilters = {
       subject: submittedSearch?.subject,
