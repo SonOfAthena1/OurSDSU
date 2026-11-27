@@ -30,8 +30,8 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     [],
   );
   const [dayMaskList, setDayMaskList] = useState<number[]>([]);
-  const [startAfter, setStartAfter] = useState<number>(0);
-  const [startBefore, setStartBefore] = useState<number>(23);
+  const [startAfter, setStartAfter] = useState<number>(5);
+  const [startBefore, setStartBefore] = useState<number>(23.5);
 
   /**
    * The actual context object's value
@@ -82,27 +82,29 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     if (selectedSemesterId === 0) return;
     let ignore = false;
     let daysMask: number | null = null;
+    let startAfterStr = null;
+    let startBeforeStr = null;
 
     if (dayMaskList.length !== 0) {
       daysMask = dayMaskList.reduce((total, current) => total + current, 0);
     }
 
-    // set some variable equal to properly formatted string
-
-    // set start before time to 24
-    // set start after to 1
-    const startAfterStr = `${String(Math.trunc(startAfter)).padStart(2, "0")}:${String((startAfter % 1) * 60).padStart(2, "0")}:00`;
-    const setBeforeStr = `${String(Math.trunc(startBefore)).padStart(2, "0")}:${String((startBefore % 1) * 60).padStart(2, "0")}:00`;
-
+    if (startAfter > 6) {
+      startAfterStr = `${String(Math.trunc(startAfter)).padStart(2, "0")}:${String((startAfter % 1) * 60).padStart(2, "0")}:00`;
+    }
+    if (startBefore < 22.5) {
+      startBeforeStr = `${String(Math.trunc(startBefore)).padStart(2, "0")}:${String((startBefore % 1) * 60).padStart(2, "0")}:00`;
+    }
     const searchFilter: SearchFilters = {
       subject: submittedSearch?.subject,
       courseNumber: submittedSearch?.courseNumber,
       geCategories: selectedGECategoryIds,
       days: daysMask,
       earlyStartTime: startAfterStr,
-      laterStartTime: setBeforeStr,
-      // earlyStartTime: range
+      laterStartTime: startBeforeStr,
     };
+
+    console.log(searchFilter)
 
     async function loadCourses() {
       const data = await getCourses(selectedSemesterId, searchFilter);
