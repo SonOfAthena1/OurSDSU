@@ -85,8 +85,7 @@ function FilterSidebar() {
       <div>
         <>
           <Form.Label>
-            Start After:{" "}
-            {formatDecimalHours(startAfter, false)}
+            Start After: {formatDecimalHours(startAfter, false)}
           </Form.Label>
           <Form.Range
             min={5}
@@ -102,8 +101,7 @@ function FilterSidebar() {
 
         <>
           <Form.Label>
-            Start Before:{" "}
-            {formatDecimalHours(startBefore, false)}
+            Start Before: {formatDecimalHours(startBefore, false)}
           </Form.Label>
           <Form.Range
             min={5}

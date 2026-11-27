@@ -105,7 +105,7 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
       laterStartTime: startBeforeStr,
     };
 
-    console.log(searchFilter)
+    console.log(searchFilter);
 
     async function loadCourses() {
       const data = await getCourses(selectedSemesterId, searchFilter);
