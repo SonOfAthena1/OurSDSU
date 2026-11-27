@@ -6,7 +6,6 @@ type CoursesResponse = {
   results: Course[];
 };
 
-// TODO: Learn how to expand this a lot more with Codex
 /**
  * TODO add docu here
  * @param subject
