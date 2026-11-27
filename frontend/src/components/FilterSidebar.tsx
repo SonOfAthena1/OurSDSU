@@ -49,7 +49,7 @@ function FilterSidebar() {
       </h2>
 
       <h5>GE Categories:</h5>
-      <Form className="mb-2">
+      <Form className="mb-3">
         <div>
           {geCategories.map((geCategory) => (
             <Form.Check
@@ -67,7 +67,7 @@ function FilterSidebar() {
       </Form>
 
       <h5>Classes on Days:</h5>
-      <Form className="mb-2">
+      <Form className="mb-3">
         <div>
           {Object.entries(dayMap).map(([day, num]) => (
             <Form.Check
@@ -83,7 +83,7 @@ function FilterSidebar() {
       </Form>
 
       <h5>Times:</h5>
-      <div className="mb-2">
+      <div className="mb-3">
         <>
           <Form.Label>
             Start After: {formatDecimalHours(startAfter, false)}
