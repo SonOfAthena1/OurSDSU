@@ -42,13 +42,11 @@ function FilterSidebar() {
 
   return (
     <aside className="py-3" aria-labelledby="filters-heading">
-      <h2 id="filters-heading" className="h5">
+      <h2 id="filters-heading" className="h2">
         Filters
       </h2>
 
-      <p className="small text-body-secondary mb-0">
-        More filter controls will go here.
-      </p>
+      <h5>GE Categories:</h5>
       <Form>
         <div>
           {geCategories.map((geCategory) => (
@@ -65,6 +63,7 @@ function FilterSidebar() {
           ))}
         </div>
       </Form>
+
       <h5>Classes on Days:</h5>
       <Form>
         <div>
@@ -80,6 +79,8 @@ function FilterSidebar() {
           ))}
         </div>
       </Form>
+
+      <h5>Times:</h5>
       <div>
         <>
           <Form.Label>
