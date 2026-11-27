@@ -87,8 +87,8 @@ function FilterSidebar() {
             {`${Math.trunc(startAfter)}:${String((startAfter % 1) * 60).padStart(2, "0")}`}
           </Form.Label>
           <Form.Range
-            min={0}
-            max={23}
+            min={5}
+            max={23.5}
             step={0.5} // 0.5 to represent 30 minute intervals
             value={startAfter}
             onChange={(event) => {
@@ -104,8 +104,8 @@ function FilterSidebar() {
             {`${Math.trunc(startBefore)}:${String((startBefore % 1) * 60).padStart(2, "0")}`}
           </Form.Label>
           <Form.Range
-            min={0}
-            max={23}
+            min={5}
+            max={23.5}
             step={0.5} // 0.5 to represent 30 minute intervals
             value={startBefore}
             onChange={(event) => {
