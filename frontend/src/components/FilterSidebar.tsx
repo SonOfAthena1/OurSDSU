@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/Form";
 import { useCourseContext } from "../hooks/useCourseContext";
+import { formatDecimalHours } from "../utils/time";
 
 const dayMap: Record<string, number> = {
   Monday: 1,
@@ -16,6 +17,10 @@ function FilterSidebar() {
     setSelectedGECategoryIds,
     dayMaskList,
     setDayMaskList,
+    startAfter,
+    setStartAfter,
+    startBefore,
+    setStartBefore,
   } = useCourseContext();
 
   function toggleDayMaskList(num: number) {
@@ -38,13 +43,11 @@ function FilterSidebar() {
 
   return (
     <aside className="py-3" aria-labelledby="filters-heading">
-      <h2 id="filters-heading" className="h5">
+      <h2 id="filters-heading" className="h2">
         Filters
       </h2>
 
-      <p className="small text-body-secondary mb-0">
-        More filter controls will go here.
-      </p>
+      <h5>GE Categories:</h5>
       <Form>
         <div>
           {geCategories.map((geCategory) => (
@@ -61,6 +64,7 @@ function FilterSidebar() {
           ))}
         </div>
       </Form>
+
       <h5>Classes on Days:</h5>
       <Form>
         <div>
@@ -76,6 +80,41 @@ function FilterSidebar() {
           ))}
         </div>
       </Form>
+
+      <h5>Times:</h5>
+      <div>
+        <>
+          <Form.Label>
+            Start After: {formatDecimalHours(startAfter, false)}
+          </Form.Label>
+          <Form.Range
+            min={5}
+            max={23.5}
+            step={0.5} // 0.5 to represent 30 minute intervals
+            value={startAfter}
+            onChange={(event) => {
+              const nextStartAfter = Number(event.currentTarget.value);
+              setStartAfter(Math.min(nextStartAfter, startBefore));
+            }}
+          />
+        </>
+
+        <>
+          <Form.Label>
+            Start Before: {formatDecimalHours(startBefore, false)}
+          </Form.Label>
+          <Form.Range
+            min={5}
+            max={23.5}
+            step={0.5} // 0.5 to represent 30 minute intervals
+            value={startBefore}
+            onChange={(event) => {
+              const nextStartBefore = Number(event.currentTarget.value);
+              setStartBefore(Math.max(nextStartBefore, startAfter));
+            }}
+          />
+        </>
+      </div>
     </aside>
   );
 }
