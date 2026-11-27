@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/Form";
 import { useCourseContext } from "../hooks/useCourseContext";
+import { formatDecimalHours } from "../utils/time";
 
 const dayMap: Record<string, number> = {
   Monday: 1,
@@ -85,7 +86,7 @@ function FilterSidebar() {
         <>
           <Form.Label>
             Start After:{" "}
-            {`${Math.trunc(startAfter)}:${String((startAfter % 1) * 60).padStart(2, "0")}`}
+            {formatDecimalHours(startAfter, false)}
           </Form.Label>
           <Form.Range
             min={5}
@@ -102,7 +103,7 @@ function FilterSidebar() {
         <>
           <Form.Label>
             Start Before:{" "}
-            {`${Math.trunc(startBefore)}:${String((startBefore % 1) * 60).padStart(2, "0")}`}
+            {formatDecimalHours(startBefore, false)}
           </Form.Label>
           <Form.Range
             min={5}

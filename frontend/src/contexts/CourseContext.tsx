@@ -7,6 +7,7 @@ import type { Semester } from "../types/semester";
 import type { GEcategory } from "../types/geCategory";
 import { getSemesters } from "../api/semesters";
 import { getGEcategories } from "../api/GEcategories";
+import { formatDecimalHours } from "../utils/time";
 // import { getSemesters } from "../api/devSemesters";
 // import { getCourses } from "../api/devCourses";
 // import { getGEcategories } from "../api/devGEcategories";
@@ -90,10 +91,10 @@ const CourseProvider = ({ children }: CourseProviderProps) => {
     }
 
     if (startAfter > 6) {
-      startAfterStr = `${String(Math.trunc(startAfter)).padStart(2, "0")}:${String((startAfter % 1) * 60).padStart(2, "0")}:00`;
+      startAfterStr = `${formatDecimalHours(startAfter, true, true)}:00`;
     }
     if (startBefore < 22.5) {
-      startBeforeStr = `${String(Math.trunc(startBefore)).padStart(2, "0")}:${String((startBefore % 1) * 60).padStart(2, "0")}:00`;
+      startBeforeStr = `${formatDecimalHours(startBefore, true, true)}:00`;
     }
     const searchFilter: SearchFilters = {
       subject: submittedSearch?.subject,
