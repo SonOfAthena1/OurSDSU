@@ -22,6 +22,8 @@ type CourseContextValue = {
   } | null;
   selectedGECategoryIds: number[];
   dayMaskList: number[];
+  startAfter: number;
+  startBefore: number;
   setSelectedSemesterId: Dispatch<SetStateAction<number>>;
   setCourses: Dispatch<SetStateAction<Course[]>>;
   setSemesters: Dispatch<SetStateAction<Semester[]>>;
@@ -34,6 +36,8 @@ type CourseContextValue = {
   >;
   setSelectedGECategoryIds: Dispatch<SetStateAction<number[]>>;
   setDayMaskList: Dispatch<SetStateAction<number[]>>;
+  setStartAfter: Dispatch<SetStateAction<number>>;
+  setStartBefore: Dispatch<SetStateAction<number>>;
 };
 
 export const CourseContext = createContext<CourseContextValue | undefined>(

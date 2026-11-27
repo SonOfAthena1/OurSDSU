@@ -1,7 +1,4 @@
 {
-  "devDependencies": {
-    "prettier": "^3.10.1"
-  },
   "scripts": {
     "dev": "npm --prefix frontend run dev",
     "backend": "python -m uvicorn app.main:app --reload --app-dir backend",
