@@ -94,7 +94,7 @@ function FilterSidebar() {
             value={startAfter}
             onChange={(event) => {
               const nextStartAfter = Number(event.currentTarget.value);
-              setStartAfter(Math.min(nextStartAfter, startBefore) - 1);
+              setStartAfter(Math.min(nextStartAfter, startBefore));
             }}
           />
         </>
@@ -111,7 +111,7 @@ function FilterSidebar() {
             value={startBefore}
             onChange={(event) => {
               const nextStartBefore = Number(event.currentTarget.value);
-              setStartBefore(Math.max(nextStartBefore, startAfter)+1);
+              setStartBefore(Math.max(nextStartBefore, startAfter));
             }}
           />
         </>
