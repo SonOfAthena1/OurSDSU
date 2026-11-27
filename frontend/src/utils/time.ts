@@ -12,11 +12,7 @@ export function formatDecimalHours(hours: number, militaryTime = true, padStart 
     let addToEnd = ""
 
     if (!militaryTime){
-        if (justHour < 12) {
-            addToEnd = " am"
-        } else {
-            addToEnd = " pm"
-        }
+        addToEnd = justHour < 12 ? " am" : " pm";
         if (justHour >= 13) {
             justHour -= 12
         }
