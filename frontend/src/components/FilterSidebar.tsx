@@ -1,6 +1,7 @@
 import Form from "react-bootstrap/Form";
 import { useCourseContext } from "../hooks/useCourseContext";
 import { formatDecimalHours } from "../utils/time";
+import { Button } from "react-bootstrap";
 
 const dayMap: Record<string, number> = {
   Monday: 1,
@@ -48,7 +49,7 @@ function FilterSidebar() {
       </h2>
 
       <h5>GE Categories:</h5>
-      <Form>
+      <Form className="mb-2">
         <div>
           {geCategories.map((geCategory) => (
             <Form.Check
@@ -66,7 +67,7 @@ function FilterSidebar() {
       </Form>
 
       <h5>Classes on Days:</h5>
-      <Form>
+      <Form className="mb-2">
         <div>
           {Object.entries(dayMap).map(([day, num]) => (
             <Form.Check
@@ -82,7 +83,7 @@ function FilterSidebar() {
       </Form>
 
       <h5>Times:</h5>
-      <div>
+      <div className="mb-2">
         <>
           <Form.Label>
             Start After: {formatDecimalHours(startAfter, false)}
@@ -114,6 +115,16 @@ function FilterSidebar() {
             }}
           />
         </>
+
+        <Button
+          type="button"
+          variant="outline-primary"
+          active={dayMaskList.includes(0)}
+          aria-pressed={dayMaskList.includes(0)} // communciates state to screen readers
+          onClick={() => toggleDayMaskList(0)}
+        >
+          Asynchronous Classes
+        </Button>
       </div>
     </aside>
   );
